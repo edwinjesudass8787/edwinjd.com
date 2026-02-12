@@ -1,0 +1,25 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C1323" />
+      <stop offset="1" stop-color="#07090F" />
+    </linearGradient>
+    <linearGradient id="accent" x1="140" y1="130" x2="1000" y2="470" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6EE7FF" />
+      <stop offset="1" stop-color="#B794FF" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <circle cx="1020" cy="120" r="220" fill="#6EE7FF" fill-opacity="0.1" />
+  <circle cx="180" cy="540" r="220" fill="#B794FF" fill-opacity="0.1" />
+
+  <text x="120" y="270" fill="url(#accent)" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="800">
+    Edwin Jesu Dass
+  </text>
+  <text x="120" y="330" fill="#E6EEFF" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="500">
+    Portfolio · Writing · Digital Transformation
+  </text>
+  <text x="120" y="390" fill="#9FB1D9" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="400">
+    Malaysia
+  </text>
+</svg>
