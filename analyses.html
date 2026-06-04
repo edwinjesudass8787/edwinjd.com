@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Observatory — Edwin Jesu Dass</title>
+  <meta name="description" content="Mapping sentiment and discourse in Malaysian social media. Contextual classification of comments across languages and code-switched speech." />
+  <meta name="robots" content="index,follow" />
+  <meta name="author" content="Edwin Jesu Dass" />
+  <meta name="theme-color" content="#07090f" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="The Observatory — Edwin Jesu Dass" />
+  <meta property="og:description" content="Social media sentiment analyses. Contextual classification of comments across languages and code-switched speech." />
+  <meta property="og:url" content="https://edwinjd.com/analyses.html" />
+  <meta property="og:locale" content="en_MY" />
+  <meta property="og:site_name" content="Edwin Jesu Dass" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="The Observatory — Edwin Jesu Dass" />
+  <meta name="twitter:description" content="Mapping sentiment and discourse in Malaysian social media." />
+
+  <link rel="canonical" href="https://edwinjd.com/analyses.html" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .analysis-card {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .analysis-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--surface-strong);
+    }
+
+    .analysis-thumb {
+      height: 140px;
+      display: flex;
+      align-items: flex-end;
+      padding: 1rem;
+      position: relative;
+    }
+
+    .analysis-badge {
+      font-family: "Space Grotesk", "Inter", sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(6px);
+      color: #fff;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .analysis-body {
+      padding: 1.1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .analysis-body h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .analysis-body p {
+      margin: 0 0 0.7rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+
+    .analysis-meta {
+      margin-top: auto;
+      font-size: 0.78rem;
+      color: #7d89a3;
+      font-family: "Space Grotesk", "Inter", sans-serif;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 900px) {
+      .analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .analysis-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">Edwin Jesu Dass</a>
+      <nav>
+        <a href="index.html#about">About</a>
+        <a href="index.html#projects">Projects</a>
+        <a href="analyses.html">Analyses</a>
+        <a href="index.html#writing">Writing</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <p class="eyebrow">Social Media Research</p>
+      <h1>The Observatory</h1>
+      <p class="hero-copy">
+        Mapping sentiment and discourse in Malaysian social media.
+        Contextual classification of comments across languages and code-switched speech.
+      </p>
+    </section>
+
+    <section class="container section">
+      <div class="section-head row">
+        <h2>Published Analyses</h2>
+      </div>
+      <div class="analysis-grid">
+        <a class="analysis-card" href="rohingya-sentiment.html">
+          <div class="analysis-thumb" style="background: linear-gradient(135deg, #2a1515, #0f2419);">
+            <span class="analysis-badge">981 comments</span>
+          </div>
+          <div class="analysis-body">
+            <h3>Rohingya Refugee — Sentiment Analysis</h3>
+            <p>
+              AI-powered classification of Facebook comments on a viral SAYS.com article,
+              with contextual understanding of Malay dismissals and sarcastic positivity.
+            </p>
+            <div class="analysis-meta">June 2026 · Facebook · English + Bahasa Malaysia</div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container site-footer">
+    <p>© <span id="year"></span> Edwin Jesu Dass. Built with clarity and intent.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
