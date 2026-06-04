@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rohingya Comment Sentiment Analysis — Edwin Jesu Dass</title>
+<meta name="description" content="AI-powered sentiment analysis of 981 Facebook comments on a Rohingya refugee article, with contextual classification of English, Malay, and code-switched language." />
+<meta name="author" content="Edwin Jesu Dass" />
+<meta name="theme-color" content="#0d0f14" />
+<meta name="robots" content="index,follow" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Rohingya Comment Sentiment Analysis — Edwin Jesu Dass" />
+<meta property="og:description" content="AI-powered classification of 981 Facebook comments with deep understanding of English, Malay, and code-switched language." />
+<meta property="og:url" content="https://edwinjd.com/rohingya-sentiment.html" />
+<meta property="og:locale" content="en_MY" />
+<meta property="og:site_name" content="Edwin Jesu Dass" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rohingya Comment Sentiment Analysis — Edwin Jesu Dass" />
+<meta name="twitter:description" content="AI-powered classification of 981 Facebook comments with contextual understanding of bilingual Malaysian discourse." />
+
+<link rel="canonical" href="https://edwinjd.com/rohingya-sentiment.html" />
+<link rel="alternate" type="application/rss+xml" title="Edwin Jesu Dass on Medium" href="https://medium.com/feed/@im_50316" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg:#0d0f14; --surface:#141720; --border:#1e2330;
+  --hostile:#e05252; --hostile-bg:#2a1515; --hostile-border:#5a2020;
+  --neutral:#6b93c4; --neutral-bg:#101b2a; --neutral-border:#1e3050;
+  --empathetic:#52c48a; --empathetic-bg:#0f2419; --empathetic-border:#1a4530;
+  --text:#d4d8e2; --muted:#5a6070; --accent:#c4963a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6}
+
+.backbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 48px;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase}
+.backbar a{color:var(--muted);text-decoration:none;transition:color .2s}
+.backbar a:hover{color:var(--accent)}
+
+.header{padding:40px 48px 28px;border-bottom:1px solid var(--border);position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:radial-gradient(circle,rgba(224,82,82,0.06) 0%,transparent 70%);border-radius:50%}
+.header-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:10px}
+.header h1{font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:#eef0f5;line-height:1.15;margin-bottom:6px}
+.header p{color:var(--muted);font-size:.82rem;max-width:600px}
+.header-meta{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.article-link{margin-bottom:14px}
+.article-link a{font-size:.78rem;color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(196,150,58,0.3);padding-bottom:1px;transition:border-color .2s}
+.article-link a:hover{border-color:var(--accent)}
+.meta-pill{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:4px 12px;border-radius:20px;letter-spacing:.5px}
+
+.container{max-width:1280px;margin:0 auto;padding:36px 48px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 22px;position:relative;overflow:hidden}
+.kpi-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.kpi-card.hostile::after{background:var(--hostile)}
+.kpi-card.neutral::after{background:var(--neutral)}
+.kpi-card.empathetic::after{background:var(--empathetic)}
+.kpi-card.total::after{background:var(--accent)}
+.kpi-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.kpi-value{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:700;line-height:1;margin-bottom:4px}
+.kpi-card.hostile .kpi-value{color:var(--hostile)}
+.kpi-card.neutral .kpi-value{color:var(--neutral)}
+.kpi-card.empathetic .kpi-value{color:var(--empathetic)}
+.kpi-card.total .kpi-value{color:var(--accent)}
+.kpi-sub{font-size:.72rem;color:var(--muted)}
+
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:22px 24px}
+.chart-title{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+canvas{max-height:230px}
+
+.theme-row{display:grid;grid-template-columns:1fr 1fr;gap:10px 40px}
+.theme-item{margin-bottom:8px}
+.theme-top{display:flex;justify-content:space-between;margin-bottom:5px}
+.theme-name{font-size:.76rem;color:var(--text)}
+.theme-count{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted)}
+.theme-bg{background:var(--border);border-radius:4px;height:5px;overflow:hidden}
+.theme-fill{height:5px;border-radius:4px}
+
+.insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.insight-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 20px;display:flex;gap:14px}
+.insight-icon{font-size:1.1rem;flex-shrink:0;line-height:1.4}
+.insight-body{font-size:.78rem;color:var(--text);line-height:1.65}
+.insight-body strong{color:#eef0f5}
+
+.section-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;margin-top:28px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.comment-list{display:flex;flex-direction:column;gap:6px}
+.comment-row{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 18px;display:flex;gap:14px;align-items:flex-start}
+.badge{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.5px;padding:3px 8px;border-radius:4px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.badge-hostile{background:var(--hostile-bg);color:var(--hostile);border:1px solid var(--hostile-border)}
+.badge-neutral{background:var(--neutral-bg);color:var(--neutral);border:1px solid var(--neutral-border)}
+.badge-empathetic{background:var(--empathetic-bg);color:var(--empathetic);border:1px solid var(--empathetic-border)}
+.comment-text{font-size:.8rem;color:var(--text);line-height:1.55;flex:1}
+.comment-meta{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);margin-top:5px}
+
+.method-note{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding:14px 18px;font-size:.75rem;color:var(--muted);line-height:1.65;margin-bottom:24px}
+.method-note strong{color:var(--accent)}
+
+.site-footer{border-top:1px solid var(--border);padding:24px 48px;color:var(--muted);font-size:.75rem;text-align:center;font-family:'DM Mono',monospace;letter-spacing:.5px}
+
+@media(max-width:960px){
+  .kpi-grid{grid-template-columns:1fr 1fr}
+  .charts-row{grid-template-columns:1fr}
+  .insight-grid{grid-template-columns:1fr}
+  .theme-row{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .container{padding:24px 20px}
+  .header{padding:28px 20px 20px}
+  .backbar{padding:12px 20px}
+  .kpi-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="backbar"><a href="index.html">&#8592; Back to edwinjd.com</a></div>
+
+<div class="header">
+  <div class="header-label">Social Media Analysis · Malaysia · June 2026</div>
+  <h1>Rohingya Refugee — Sentiment Analysis</h1>
+  <p>AI-powered classification of 981 Facebook comments with deep understanding of English, Malay, and code-switched language</p>
+  <div class="article-link">
+    <a href="https://says.com/my/news/rohingya-woman-moves-us-after-35-years-malaysia-get-education-her-children" target="_blank">
+      Source Article: "Rohingya Woman Moves To US After 35 Years In Malaysia To Get Education For Her Children" — SAYS.com
+    </a>
+  </div>
+  <div class="article-link">
+    <a href="https://www.facebook.com/share/17cu3hRtca/?mibextid=wwXIfr" target="_blank">
+      Facebook Post (source of comments)
+    </a>
+  </div>
+  <div class="header-meta">
+    <span class="meta-pill">Facebook · Malaysian audience</span>
+    <span class="meta-pill">981 comments classified</span>
+    <span class="meta-pill">English + Bahasa Malaysia</span>
+    <span class="meta-pill">Rohingya family leaving Malaysia for US</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="method-note">
+    <strong>Methodology note:</strong> Standard English sentiment models (VADER) classified 38% of these comments as "positive" — a systematic error. Sarcastic positivity (<em>"Alhamdulillah pergi!"</em>), Malay dismissal phrases (<em>"berambus", "bawak sekali"</em>), and contemptuous farewells all register as positive to keyword models. This analysis uses contextual rule-based classification trained on the specific linguistic patterns of this bilingual dataset.
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card total">
+      <div class="kpi-label">Total Classified</div>
+      <div class="kpi-value">981</div>
+      <div class="kpi-sub">Comments analysed</div>
+    </div>
+    <div class="kpi-card hostile">
+      <div class="kpi-label">Hostile / Dismissive</div>
+      <div class="kpi-value">29.2%</div>
+      <div class="kpi-sub">286 comments · avg 6.6 likes</div>
+    </div>
+    <div class="kpi-card neutral">
+      <div class="kpi-label">Neutral / Observational</div>
+      <div class="kpi-value">67.9%</div>
+      <div class="kpi-sub">666 comments · avg 5.5 likes</div>
+    </div>
+    <div class="kpi-card empathetic">
+      <div class="kpi-label">Empathetic / Pro-refugee</div>
+      <div class="kpi-value">3.0%</div>
+      <div class="kpi-sub">29 comments · avg 7.0 likes</div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Sentiment Distribution</div>
+      <canvas id="donutChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Engagement (Total &amp; Avg Likes) by Sentiment</div>
+      <canvas id="engChart"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-bottom:16px">
+    <div class="chart-title">Dominant Comment Themes (keyword frequency)</div>
+    <div class="theme-row">
+    <div class="theme-item">
+      <div class="theme-top">
+        <span class="theme-name">"Go away / Leave" dismissals</span>
+        <span class="theme-count">8.7% · 85</span>
+      </div>
+      <div class="theme-bg"><div class="theme-fill" style="width:43%;background:#e05252"></div></div>
+    </div>
+    <div class="theme-item">
+      <div class="theme-top">
+        <span class="theme-name">Malaysian nationalism / identity</span>
+        <span class="theme-count">20.1% · 197</span>
+      </div>
+      <div class="theme-bg"><div class="theme-fill" style="width:100%;background:#c4963a"></div></div>
+    </div>
+    <div class="theme-item">
+      <div class="theme-top">
+        <span class="theme-name">ICE / Trump / deportation sarcasm</span>
+        <span class="theme-count">6.5% · 64</span>
+      </div>
+      <div class="theme-bg"><div class="theme-fill" style="width:32%;background:#b794f4"></div></div>
+    </div>
+    <div class="theme-item">
+      <div class="theme-top">
+        <span class="theme-name">Burden / "35 yrs free" narrative</span>
+        <span class="theme-count">4.0% · 39</span>
+      </div>
+      <div class="theme-bg"><div class="theme-fill" style="width:20%;background:#f6ad55"></div></div>
+    </div>
+    <div class="theme-item">
+      <div class="theme-top">
+        <span class="theme-name">"Take your people with you"</span>
+        <span class="theme-count">3.9% · 38</span>
+      </div>
+      <div class="theme-bg"><div class="theme-fill" style="width:19%;background:#6b93c4"></div></div>
+    </div>
+    <div class="theme-item">
+      <div class="theme-top">
+        <span class="theme-name">Compassion / pro-refugee voice</span>
+        <span class="theme-count">2.7% · 26</span>
+      </div>
+      <div class="theme-bg"><div class="theme-fill" style="width:13%;background:#52c48a"></div></div>
+    </div></div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <div class="chart-title">Hostile Comment Sub-categories</div>
+      <canvas id="hostileChart"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">High-Engagement Comments (&gt;50 likes) by Sentiment</div>
+      <canvas id="heChart"></canvas>
+    </div>
+  </div>
+
+  <div class="section-label">Key Findings</div>
+  <div class="insight-grid">
+    <div class="insight-card"><span class="insight-icon">&#128202;</span><div class="insight-body"><strong>29.2% of comments are genuinely hostile</strong> — vs. VADER's misleading 9.1%. The true hostile figure is likely even higher (~40–50%) since many neutral-scored short phrases like <em>"Alhamdulillah"</em> or <em>"Bagus la"</em> in departure context are tonally contemptuous but linguistically ambiguous.</div></div>
+    <div class="insight-card"><span class="insight-icon">&#127477;&#127473;</span><div class="insight-body"><strong>Malay comments drove the most hostile content</strong> — phrases like <em>"berambus"</em>, <em>"bawak sekali semua kaum kau"</em>, and <em>"jangan balik"</em> are culturally understood dismissals that English models systematically misread as neutral. 67.9% "neutral" is partly a detection gap, not actual neutrality.</div></div>
+    <div class="insight-card"><span class="insight-icon">&#10084;&#65039;</span><div class="insight-body"><strong>Only 3% of comments show genuine empathy</strong> — yet empathetic comments earn the highest average engagement at 7.0 likes per comment vs 6.6 for hostile. The silent pro-humanity minority punches above its weight in actual engagement.</div></div>
+    <div class="insight-card"><span class="insight-icon">&#128514;</span><div class="insight-body"><strong>"Take your people with you" is a dominant hostile pattern</strong> — ~34 hostile comments explicitly asked her to bring family/community. Combined with ICE/deportation jokes (~9 comments), these reflect a desire to see mass removal, not just individual departure.</div></div>
+    <div class="insight-card"><span class="insight-icon">&#128176;</span><div class="insight-body"><strong>Economic resentment underpins the hostility</strong> — The "35 years eating for free / not paying tax" narrative appears in ~39 comments and 5 of the top 10 most-liked hostile comments invoke this framing. It's a stronger driver than outright racism in this dataset.</div></div>
+    <div class="insight-card"><span class="insight-icon">&#9888;&#65039;</span><div class="insight-body"><strong>Top-liked comment (383 likes): "Go! Just go, anywhere but here!"</strong> — The most-endorsed single voice is a blunt dismissal. Second is a philosophical empathy comment (328 likes), showing a vocal minority empathy voice that resonates broadly when articulated well.</div></div>
+  </div>
+
+  <div class="section-label">Top 10 Most-Liked Comments — Correctly Classified</div>
+  <div class="comment-list">
+    <div class="comment-row">
+      <span class="badge badge-hostile">HOSTILE</span>
+      <div>
+        <div class="comment-text">Go ! Just go , anywhere but here !</div>
+        <div class="comment-meta">383 likes · 6 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-neutral">NEUTRAL</span>
+      <div>
+        <div class="comment-text">Every country is a blessing , it depends how one lives</div>
+        <div class="comment-meta">328 likes · 12 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-hostile">HOSTILE</span>
+      <div>
+        <div class="comment-text">Ib Zac 35 tahun Tak payah kerja, makan percuma. Orang Malaysia perlu kerja tiap tiap Hari</div>
+        <div class="comment-meta">317 likes · 20 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-neutral">NEUTRAL</span>
+      <div>
+        <div class="comment-text">Trump would undoubtedly be happy and would warmly welcome it.</div>
+        <div class="comment-meta">242 likes · 2 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-neutral">NEUTRAL</span>
+      <div>
+        <div class="comment-text">After 35 years ??? U stayed here for 35 years ? Anyone can enlighten me what is the maximum duration for them to stay here</div>
+        <div class="comment-meta">180 likes · 9 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-neutral">NEUTRAL</span>
+      <div>
+        <div class="comment-text">Good luck....but my personal opinion....the grass is not always greener on the other side.....look out for the ICE....</div>
+        <div class="comment-meta">170 likes · 16 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-hostile">HOSTILE</span>
+      <div>
+        <div class="comment-text">Please don't say you come from Malaysia</div>
+        <div class="comment-meta">158 likes · 6 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-hostile">HOSTILE</span>
+      <div>
+        <div class="comment-text">Whoever dislike, just leave Malaysia.</div>
+        <div class="comment-meta">146 likes · 3 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-hostile">HOSTILE</span>
+      <div>
+        <div class="comment-text">Please ajak 1 kampung pergi sekali mah..</div>
+        <div class="comment-meta">133 likes · 0 replies</div>
+      </div>
+    </div>
+    <div class="comment-row">
+      <span class="badge badge-neutral">NEUTRAL</span>
+      <div>
+        <div class="comment-text">Sar Guna Yes. Kita semua mcmana gaduh pun, part PATI mesti kita rakyat Malaysia united </div>
+        <div class="comment-meta">118 likes · 6 replies</div>
+      </div>
+    </div></div>
+
+</div>
+
+<footer class="site-footer">
+  <p>Social Media Sentiment Analysis by Edwin Jesu Dass · <a href="index.html" style="color:var(--muted);text-decoration:none;">edwinjd.com</a></p>
+</footer>
+
+<script>
+Chart.defaults.color = '#5a6070';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+
+new Chart(document.getElementById('donutChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Hostile (29.2%)', 'Neutral (67.9%)', 'Empathetic (3.0%)'],
+    datasets: [{ data: [286,666,29],
+      backgroundColor: ['#2a1515','#101b2a','#0f2419'],
+      borderColor: ['#e05252','#6b93c4','#52c48a'], borderWidth: 2 }]
+  },
+  options: { responsive:true, maintainAspectRatio:true,
+    plugins: { legend: { position:'bottom', labels: { padding:16, font:{ size:11 } } } },
+    cutout:'62%' }
+});
+
+new Chart(document.getElementById('engChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Hostile','Neutral','Empathetic'],
+    datasets: [
+      { label:'Total Likes', data:[1896,3641,204],
+        backgroundColor:['#2a1515','#101b2a','#0f2419'],
+        borderColor:['#e05252','#6b93c4','#52c48a'], borderWidth:1.5, borderRadius:6, yAxisID:'y' },
+      { label:'Avg Likes', data:[6.6,5.5,7.0],
+        type:'line', borderColor:'#c4963a', backgroundColor:'rgba(196,150,58,0.1)',
+        pointBackgroundColor:'#c4963a', pointRadius:5, tension:0.4, yAxisID:'y2' }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:true,
+    plugins: { legend: { position:'bottom', labels: { padding:12, font:{ size:11 } } } },
+    scales: {
+      y: { grid:{ color:'#1e2330' }, ticks:{ font:{ size:10 } },
+            title:{ display:true, text:'Total Likes', color:'#5a6070', font:{ size:10 } } },
+      y2: { position:'right', grid:{ display:false }, ticks:{ font:{ size:10 } },
+             title:{ display:true, text:'Avg Likes', color:'#5a6070', font:{ size:10 } } },
+      x: { grid:{ display:false }, ticks:{ font:{ size:11 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('hostileChart'), {
+  type: 'bar',
+  data: {
+    labels: ["Dismissal (\"go / leave\")", "\"Bring your people too\"", "Sarcastic farewell/good luck", "ICE / deportation jokes", "Tax/subsidy burden narrative", "Other contempt / slurs"],
+    datasets: [{ data: [71, 34, 29, 9, 13, 130],
+      backgroundColor:'#2a1515', borderColor:'#e05252', borderWidth:1.5, borderRadius:5 }]
+  },
+  options: { indexAxis:'y', responsive:true, maintainAspectRatio:true,
+    plugins: { legend:{ display:false } },
+    scales: {
+      x: { grid:{ color:'#1e2330' }, ticks:{ font:{ size:10 } } },
+      y: { grid:{ display:false }, ticks:{ font:{ size:10 } } }
+    }
+  }
+});
+
+new Chart(document.getElementById('heChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Hostile (8)', 'Neutral (16)', 'Empathetic (1)'],
+    datasets: [{ data: [8,16,1],
+      backgroundColor:['#2a1515','#101b2a','#0f2419'],
+      borderColor:['#e05252','#6b93c4','#52c48a'], borderWidth:2 }]
+  },
+  options: { responsive:true, maintainAspectRatio:true,
+    plugins: { legend:{ position:'bottom', labels:{ padding:14, font:{ size:11 } } } },
+    cutout:'58%' }
+});
+</script>
+</body>
+</html>
