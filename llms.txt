@@ -1,0 +1,42 @@
+# Edwin Jesu Dass — edwinjd.com
+
+> Portfolio and writing hub of Edwin Jesu Dass, a Malaysia-based construction and digital transformation practitioner, writer, and speaker.
+
+## Overview
+
+This site is the personal portfolio and publishing platform of Edwin Jesu Dass. It contains:
+
+- A professional portfolio covering construction, digital transformation, AI in construction management, and ESG leadership
+- Auto-updating Medium article feeds
+- The Observatory — a collection of social media sentiment analyses mapping discourse, sarcasm, and bilingual code-switching in Malaysian online comment sections
+
+## Key Pages
+
+- [Home / Portfolio](https://edwinjd.com/) — About, selected work, latest Medium articles, contact
+- [The Observatory](https://edwinjd.com/analyses.html) — Gallery of social media sentiment analyses
+- [Rohingya Sentiment Analysis](https://edwinjd.com/rohingya-sentiment.html) — AI-powered classification of 981 Facebook comments with contextual understanding of English, Malay, and code-switched language
+
+## Person
+
+- **Name:** Edwin Jesu Dass
+- **Location:** Malaysia
+- **Field:** Construction, digital transformation, AI in construction management
+- **Writing:** [Medium @im_50316](https://medium.com/@im_50316)
+- **Professional:** [LinkedIn](https://my.linkedin.com/in/edwin-jesu-dass-1754b8a6)
+
+## Projects
+
+### The Observatory (Social Media Sentiment Analysis)
+A personal research project analysing Facebook comment sentiment on viral Malaysian news articles. Uses contextual rule-based classification trained on bilingual (English + Bahasa Malaysia) linguistic patterns, addressing limitations of standard English sentiment models (VADER) that misclassify Malay dismissals and sarcastic positivity as neutral or positive.
+
+## Tech Stack
+
+- Static HTML/CSS/JS
+- No build step required
+- Chart.js for data visualisations
+- GitHub Pages hosting
+- Auto-updating Medium RSS feed via JavaScript
+
+## Contact
+
+Open to collaborations, speaking opportunities, and thoughtful conversations.

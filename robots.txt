@@ -1,2 +1,26 @@
 User-agent: *
 Allow: /
+
+# AI crawlers and LLM bots explicitly allowed
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+Sitemap: https://edwinjd.com/sitemap.xml
