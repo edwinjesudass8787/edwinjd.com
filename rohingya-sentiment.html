@@ -20,22 +20,22 @@
 <meta name="twitter:title" content="Rohingya Comment Sentiment Analysis — Edwin Jesu Dass" />
 <meta name="twitter:description" content="AI-powered classification of 981 Facebook comments with contextual understanding of bilingual Malaysian discourse." />
 
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+
 <link rel="canonical" href="https://edwinjd.com/rohingya-sentiment.html" />
 <link rel="alternate" type="application/rss+xml" title="Edwin Jesu Dass on Medium" href="https://medium.com/feed/@im_50316" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap');
-
 :root {
-  --bg:#0d0f14; --surface:#141720; --border:#1e2330;
   --hostile:#e05252; --hostile-bg:#2a1515; --hostile-border:#5a2020;
   --neutral:#6b93c4; --neutral-bg:#101b2a; --neutral-border:#1e3050;
   --empathetic:#52c48a; --empathetic-bg:#0f2419; --empathetic-border:#1a4530;
-  --text:#d4d8e2; --muted:#5a6070; --accent:#c4963a;
 }
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6}
 
 .backbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 48px;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase}
 .backbar a{color:var(--muted);text-decoration:none;transition:color .2s}
@@ -118,6 +118,19 @@ canvas{max-height:230px}
 </style>
 </head>
 <body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Edwin Jesu Dass</a>
+    <nav>
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="analyses.html">Analyses</a>
+      <a href="index.html#writing">Writing</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
 
 <div class="backbar"><a href="analyses.html">&#8592; Back to Analyses</a></div>
 
