@@ -15,6 +15,7 @@ This site is the personal portfolio and publishing platform of Edwin Jesu Dass. 
 - [Home / Portfolio](https://edwinjd.com/) — About, selected work, latest Medium articles, contact
 - [The Observatory](https://edwinjd.com/analyses.html) — Gallery of social media sentiment analyses
 - [Rohingya Sentiment Analysis](https://edwinjd.com/rohingya-sentiment.html) — AI-powered classification of 981 Facebook comments with contextual understanding of English, Malay, and code-switched language
+- [Swarm Governance Framework](https://edwinjd.com/swarm-governance.html) — DBA research proposal on AI-enabled swarm governance via Design Science Research
 
 ## Person
 

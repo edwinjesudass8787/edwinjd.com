@@ -11,6 +11,7 @@ edwinjd.com/
 ├── index.html              # Homepage: about, projects, Medium articles, contact
 ├── analyses.html           # "The Observatory" — gallery of sentiment analyses
 ├── rohingya-sentiment.html # Individual analysis page (charts, findings, comments)
+├── swarm-governance.html   # DBA research proposal slide deck
 ├── styles.css              # Shared stylesheet — dark editorial theme
 ├── script.js               # Medium RSS feed parser + year auto-update
 ├── robots.txt              # Allows all crawlers

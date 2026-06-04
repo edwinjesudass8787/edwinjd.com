@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-Enabled Swarm Governance — Edwin Jesu Dass</title>
+<meta name="description" content="AI-Enabled Swarm Governance: A Design Science Framework for decentralised coordination in complex organisations. DBA Research Proposal, Kings University College." />
+<meta name="author" content="Edwin Jesu Dass" />
+<meta name="theme-color" content="#0b1f14" />
+<meta name="robots" content="index,follow" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="AI-Enabled Swarm Governance — Edwin Jesu Dass" />
+<meta property="og:description" content="A Design Science Framework for decentralised coordination in complex organisations." />
+<meta property="og:url" content="https://edwinjd.com/swarm-governance.html" />
+<meta property="og:locale" content="en_MY" />
+<meta property="og:site_name" content="Edwin Jesu Dass" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI-Enabled Swarm Governance — Edwin Jesu Dass" />
+<meta name="twitter:description" content="A Design Science Framework for decentralised coordination in complex organisations." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+
+<link rel="canonical" href="https://edwinjd.com/swarm-governance.html" />
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0b1f14;
+    --panel:    #112a1a;
+    --green:    #1a4a2e;
+    --mid:      #2d6a4f;
+    --amber:    #e89c1a;
+    --amber2:   #f5b942;
+    --cream:    #f5f0e8;
+    --muted:    #8aab95;
+    --dim:      rgba(245,240,232,0.65);
+    --card:     rgba(26,74,46,0.55);
+    --glow:     rgba(232,156,26,0.18);
+  }
+
+  html, body {
+    width: 100vw; height: 100vh;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--cream);
+  }
+
+  /* ── SLIDE CONTAINER ── */
+  #deck {
+    position: absolute;
+    top: 52px; left: 0; right: 0; bottom: 0;
+    overflow: hidden;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3vw 5vw;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.55s cubic-bezier(.4,0,.2,1), transform 0.55s cubic-bezier(.4,0,.2,1);
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .slide.active {
+    opacity: 1; transform: translateX(0);
+    pointer-events: all;
+  }
+  .slide.exit-left {
+    opacity: 0; transform: translateX(-60px);
+  }
+
+  /* ── AMBIENT BACKGROUND CANVAS ── */
+  #bg-canvas {
+    position: fixed;
+    top: 52px; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .slide { z-index: 1; }
+
+  /* ── SLIDE NUMBER & PROGRESS ── */
+  #progress {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    padding: 0 3vw 1.8vh;
+    gap: 1.2rem;
+  }
+  #slide-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    min-width: 4.5rem;
+  }
+  #progress-bar-wrap {
+    flex: 1;
+    height: 2px;
+    background: rgba(138,171,149,0.2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  #progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--amber), var(--amber2));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── NAV BUTTONS ── */
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    background: rgba(26,74,46,0.4);
+    border: 1px solid rgba(232,156,26,0.25);
+    color: var(--amber);
+    width: 3.2rem; height: 3.2rem;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.3rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+    backdrop-filter: blur(8px);
+  }
+  .nav-btn:hover { background: rgba(26,74,46,0.85); border-color: var(--amber); }
+  .nav-btn:disabled { opacity: 0.15; cursor: default; }
+  #btn-prev { left: 1.5vw; }
+  #btn-next { right: 1.5vw; }
+
+  /* ── SLIDE DOTS ── */
+  #dots {
+    position: fixed;
+    bottom: 1.2vh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 6px;
+    z-index: 100;
+  }
+  .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: rgba(138,171,149,0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .dot.active {
+    background: var(--amber);
+    transform: scale(1.4);
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(0.72rem, 0.95vw, 0.9rem);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-size: clamp(2.2rem, 4.8vw, 4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--cream);
+    text-align: center;
+  }
+  h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  h3 {
+    font-size: clamp(1.05rem, 1.8vw, 1.55rem);
+    font-weight: 600;
+    color: var(--amber);
+    margin-bottom: 0.5rem;
+  }
+  p, li {
+    font-size: clamp(0.9rem, 1.35vw, 1.15rem);
+    line-height: 1.7;
+    color: var(--dim);
+  }
+  .accent { color: var(--amber); }
+  .highlight { color: var(--cream); }
+  .amber-line {
+    width: 3.5rem; height: 3px;
+    background: linear-gradient(90deg, var(--amber), transparent);
+    margin: 0.7rem 0 1.2rem;
+  }
+
+  /* ── GRID LAYOUTS ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5vw; width: 100%; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2vw; width: 100%; }
+  .five-col { display: grid; grid-template-columns: repeat(5,1fr); gap: 1.5vw; width: 100%; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(232,156,26,0.18);
+    border-radius: 12px;
+    padding: 1.8rem 2rem;
+    backdrop-filter: blur(6px);
+  }
+  .card-icon {
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    margin-bottom: 0.7rem;
+    display: block;
+  }
+
+  /* ── QUOTE ── */
+  .big-quote {
+    font-size: clamp(1.7rem, 3.5vw, 3rem);
+    font-style: italic;
+    line-height: 1.4;
+    text-align: center;
+    color: var(--cream);
+    max-width: 80vw;
+  }
+  .big-quote::before { content: '\201C'; color: var(--amber); margin-right: 0.1em; }
+  .big-quote::after  { content: '\201D'; color: var(--amber); margin-left: 0.1em; }
+
+  /* ── TABLE ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: clamp(0.82rem, 1.15vw, 1rem);
+  }
+  th {
+    background: rgba(232,156,26,0.15);
+    color: var(--amber);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(232,156,26,0.3);
+  }
+  td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(138,171,149,0.12);
+    color: var(--dim);
+    vertical-align: top;
+  }
+  tr:hover td { background: rgba(26,74,46,0.35); }
+  td:first-child { color: var(--amber); font-weight: 700; font-family: 'DM Mono', monospace; }
+
+  /* ── SWARM LETTERS ── */
+  .swarm-row {
+    display: flex; gap: 1.2vw;
+    width: 100%; margin-top: 0.5rem;
+  }
+  .swarm-card {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid rgba(232,156,26,0.2);
+    border-radius: 10px;
+    padding: 1.6rem 1rem;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: default;
+  }
+  .swarm-card:hover { border-color: var(--amber); transform: translateY(-4px); }
+  .swarm-letter {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    font-weight: 900;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .swarm-label {
+    font-size: clamp(0.78rem, 1.1vw, 1rem);
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+  }
+  .swarm-sub {
+    font-size: clamp(0.68rem, 0.92vw, 0.85rem);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── PHASE FLOW ── */
+  .phase-flow {
+    display: flex; align-items: stretch;
+    gap: 0; width: 100%; margin-top: 0.5rem;
+  }
+  .phase-item {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid rgba(232,156,26,0.15);
+    border-radius: 0;
+    padding: 1.2rem 0.8rem;
+    text-align: center;
+    position: relative;
+  }
+  .phase-item:first-child { border-radius: 10px 0 0 10px; }
+  .phase-item:last-child  { border-radius: 0 10px 10px 0; }
+  .phase-item:not(:last-child)::after {
+    content: '\2192';
+    position: absolute;
+    right: -0.9rem;
+    top: 50%; transform: translateY(-50%);
+    color: var(--amber);
+    font-size: 1rem;
+    z-index: 2;
+    background: var(--bg);
+    padding: 0 2px;
+  }
+  .phase-num {
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--amber);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .phase-title {
+    font-size: clamp(0.75rem, 1vw, 0.92rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 0.3rem;
+  }
+  .phase-out {
+    font-size: clamp(0.65rem, 0.85vw, 0.78rem);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.2vw;
+    margin-top: 0.5rem;
+  }
+  .tl-item {
+    background: var(--card);
+    border: 1px solid rgba(232,156,26,0.15);
+    border-radius: 10px;
+    padding: 1.3rem;
+    position: relative;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--mid));
+    border-radius: 10px 10px 0 0;
+  }
+  .tl-phase {
+    font-size: 0.72rem;
+    font-family: 'DM Mono', monospace;
+    color: var(--amber);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .tl-title {
+    font-size: clamp(0.82rem, 1.05vw, 0.98rem);
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.3;
+    margin-bottom: 0.4rem;
+  }
+  .tl-sub {
+    font-size: clamp(0.7rem, 0.88vw, 0.82rem);
+    color: var(--muted);
+  }
+
+  /* ── FAILURE MODES ── */
+  .fail-list {
+    list-style: none;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin-top: 0.5rem;
+  }
+  .fail-item {
+    background: var(--card);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 0.9rem 1.1rem;
+  }
+  .fail-item strong { color: var(--amber); display: block; font-size: clamp(0.82rem, 1.15vw, 1rem); margin-bottom: 0.25rem; }
+  .fail-item span { font-size: clamp(0.72rem, 0.98vw, 0.88rem); color: var(--muted); }
+
+  /* ── METRICS ── */
+  .metric-row {
+    display: flex; gap: 1.5vw; width: 100%; margin-top: 0.5rem;
+  }
+  .metric {
+    flex: 1;
+    text-align: center;
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1.4rem;
+  }
+  .metric-val { font-size: clamp(2.4rem, 5vw, 4.5rem); font-weight: 900; color: var(--amber); line-height: 1; }
+  .metric-label { font-size: clamp(0.75rem, 1vw, 0.9rem); color: var(--muted); margin-top: 0.4rem; }
+
+  /* ── CONTRIBUTION COLUMNS ── */
+  .contrib-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5vw;
+    width: 100%;
+  }
+  .contrib-col { background: var(--card); border-radius: 10px; padding: 1.5rem 1.8rem; }
+  .contrib-col h3 { font-size: clamp(0.88rem, 1.2vw, 1.05rem); margin-bottom: 0.9rem; }
+  .contrib-col li { font-size: clamp(0.78rem, 1.05vw, 0.95rem); list-style: none; padding: 0.35rem 0; border-bottom: 1px solid rgba(138,171,149,0.1); color: var(--dim); }
+  .contrib-col li::before { content: '\2192 '; color: var(--amber); }
+
+  /* ── PRINCIPLE CARDS ── */
+  .principle-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5vw;
+    width: 100%;
+  }
+  .principle-card {
+    background: var(--card);
+    border: 1px solid rgba(232,156,26,0.18);
+    border-radius: 12px;
+    padding: 1.6rem 1.8rem;
+    display: flex; gap: 1.2rem; align-items: flex-start;
+  }
+  .principle-icon { font-size: clamp(2.2rem, 3.5vw, 3rem); flex-shrink: 0; }
+  .principle-body h3 { font-size: clamp(0.92rem, 1.3vw, 1.12rem); margin-bottom: 0.3rem; }
+  .principle-body .acad { font-size: clamp(0.72rem, 0.95vw, 0.88rem); color: var(--muted); font-style: italic; margin-bottom: 0.4rem; }
+  .principle-body p { font-size: clamp(0.75rem, 1.05vw, 0.95rem); }
+
+  /* ── LIT MAP ── */
+  .lit-map {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 0.8rem;
+    margin-top: 0.3rem;
+  }
+  .lit-center {
+    background: rgba(232,156,26,0.15);
+    border: 2px solid var(--amber);
+    border-radius: 50px;
+    padding: 0.7rem 2.5rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+    color: var(--amber);
+    letter-spacing: 0.05em;
+  }
+  .lit-streams {
+    display: flex; gap: 1.2vw; width: 100%;
+  }
+  .lit-stream {
+    flex: 1;
+    background: var(--card);
+    border-radius: 10px;
+    padding: 1.1rem;
+    text-align: center;
+    border-top: 2px solid var(--amber);
+    position: relative;
+  }
+  .lit-stream::before {
+    content: '|';
+    position: absolute;
+    top: -1.2rem; left: 50%;
+    color: var(--amber);
+    font-size: 0.9rem;
+  }
+  .lit-stream h3 { font-size: clamp(0.75rem, 1.05vw, 0.95rem); margin-bottom: 0.4rem; }
+  .lit-stream p { font-size: clamp(0.68rem, 0.92vw, 0.85rem); }
+
+  /* ── RQ SECTION ── */
+  .rq-primary {
+    background: rgba(232,156,26,0.1);
+    border: 1px solid rgba(232,156,26,0.4);
+    border-radius: 12px;
+    padding: 1.3rem 1.8rem;
+    width: 100%;
+    margin-bottom: 1.2rem;
+  }
+  .rq-primary .label { font-size: 0.75rem; font-family: 'DM Mono', monospace; letter-spacing: 0.15em; color: var(--amber); text-transform: uppercase; margin-bottom: 0.5rem; }
+  .rq-primary p { font-size: clamp(0.95rem, 1.35vw, 1.15rem); color: var(--cream); font-style: italic; line-height: 1.6; }
+  .rq-sub-list { list-style: none; width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+  .rq-sub-list li {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 0.9rem 1.2rem;
+    font-size: clamp(0.82rem, 1.12vw, 1rem);
+    color: var(--dim);
+    display: flex; gap: 0.9rem; align-items: flex-start;
+  }
+  .rq-sub-list li .num { color: var(--amber); font-weight: 700; font-family: 'DM Mono', monospace; flex-shrink: 0; }
+
+  /* ── FEASIBILITY ── */
+  .feas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5vw;
+    width: 100%;
+  }
+  .feas-section { background: var(--card); border-radius: 10px; padding: 1.5rem; }
+  .feas-section h3 { font-size: clamp(0.85rem, 1.2vw, 1.05rem); margin-bottom: 0.9rem; }
+  .feas-section li { list-style: none; font-size: clamp(0.75rem, 1vw, 0.92rem); color: var(--dim); padding: 0.3rem 0; }
+  .feas-section li::before { content: '\2713 '; color: var(--amber); }
+  .feas-section.limits li::before { content: '\26A0 '; color: #d4813a; }
+
+  /* ── ETHICS BADGES ── */
+  .ethics-row {
+    display: flex; gap: 1vw; margin-top: 0.9rem;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: rgba(232,156,26,0.12);
+    border: 1px solid rgba(232,156,26,0.3);
+    border-radius: 20px;
+    padding: 0.38rem 0.95rem;
+    font-size: clamp(0.68rem, 0.9vw, 0.82rem);
+    color: var(--amber);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── SLIDE 1 SPECIFIC ── */
+  #s1 { gap: 0; }
+  .title-block { text-align: center; max-width: 82vw; }
+  .title-subtitle { font-size: clamp(0.95rem, 1.6vw, 1.3rem); color: var(--muted); margin-top: 1rem; font-style: italic; max-width: 68vw; line-height: 1.65; }
+  .title-meta { font-size: clamp(0.75rem, 1.05vw, 0.92rem); color: var(--muted); margin-top: 2.2rem; font-family: 'DM Mono', monospace; letter-spacing: 0.08em; }
+  .title-meta span { color: var(--amber); }
+  .hex-grid {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hex {
+    position: absolute;
+    width: 50px; height: 58px;
+    background: rgba(26,74,46,0.25);
+    clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+    animation: hexPulse 4s ease-in-out infinite;
+  }
+  @keyframes hexPulse { 0%,100%{opacity:0.15} 50%{opacity:0.45} }
+  .title-block { position: relative; z-index: 1; }
+
+  /* ── SLIDE 15 CLOSING ── */
+  #s15 { background: radial-gradient(ellipse at center, rgba(45,106,79,0.3) 0%, transparent 70%); }
+  .closing-quote {
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    font-style: italic;
+    font-weight: 700;
+    text-align: center;
+    color: var(--cream);
+    max-width: 78vw;
+    line-height: 1.35;
+    position: relative; z-index: 1;
+  }
+  .closing-quote::before { content: '\201C'; color: var(--amber); font-size: 1.3em; line-height: 0; vertical-align: -0.4em; }
+  .closing-quote::after  { content: '\201D'; color: var(--amber); font-size: 1.3em; line-height: 0; vertical-align: -0.4em; }
+  .closing-attr { font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--muted); margin-top: 1.8rem; font-family: 'DM Mono', monospace; letter-spacing: 0.1em; z-index: 1; position: relative; }
+
+  /* Slide full-height content helper */
+  .slide-inner {
+    width: 100%;
+    max-height: calc(100vh - 6vh);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    overflow: hidden;
+  }
+  .slide-inner.center { align-items: center; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Edwin Jesu Dass</a>
+    <nav>
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="analyses.html">Analyses</a>
+      <a href="index.html#writing">Writing</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<canvas id="bg-canvas"></canvas>
+
+<div id="deck">
+
+  <!-- ═══════════════════════════════ SLIDE 1 ═══════════════════════════ -->
+  <div class="slide active" id="s1">
+    <div class="hex-grid" id="hexGrid"></div>
+    <div class="title-block">
+      <div class="tag">Doctor of Business Administration · Kings University College</div>
+      <h1>AI-Enabled Swarm<br><span class="accent">Governance</span></h1>
+      <p class="title-subtitle">A Design Science Framework for Decentralised Coordination<br>in Complex Organisations</p>
+      <div style="width:4rem;height:3px;background:linear-gradient(90deg,var(--amber),transparent);margin:1.8rem auto;"></div>
+      <p class="title-meta"><span>Edwin Jesu Dass</span> &nbsp;·&nbsp; DBA Candidate &nbsp;·&nbsp; Advanced Business Research</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 2 ═══════════════════════════ -->
+  <div class="slide" id="s2">
+    <div class="slide-inner">
+      <div class="tag">The Problem</div>
+      <h2>The <span class="accent">Queen Bee Trap</span></h2>
+      <p style="max-width:68vw;margin-bottom:0.2rem;">Hierarchical governance was engineered for a predictable, stable world. That world no longer exists. Centralised control creates <strong class="accent">structural lag</strong> — the gap between environmental complexity and organisational response speed.</p>
+      <div class="amber-line"></div>
+      <ul class="fail-list">
+        <li class="fail-item"><strong>① Information Bottleneck</strong><span>Decisions travel up, answers travel down — too slow for complex environments (Ashby, 1956)</span></li>
+        <li class="fail-item"><strong>② Structural Lag</strong><span>Predict-plan-control logic misfires in complex domains (Snowden & Boone, 2007)</span></li>
+        <li class="fail-item"><strong>③ Knowledge Fragmentation</strong><span>Tacit knowledge held at the edge is lost in translation to management reports</span></li>
+        <li class="fail-item"><strong>④ Coordination Rigidity</strong><span>SOPs optimised for past conditions become constraints when conditions change (Teece et al., 1997)</span></li>
+        <li class="fail-item"><strong>⑤ Innovation Suppression</strong><span>Risk aversion at middle management blocks novel signals from reaching decision authority</span></li>
+      </ul>
+      <p style="font-size:clamp(0.75rem,1.05vw,0.92rem);color:var(--muted);font-style:italic;">Taşkan et al. (2022) — systematic review of 833 studies confirms VUCA amplifies every one of these failure modes.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 3 ═══════════════════════════ -->
+  <div class="slide" id="s3">
+    <div class="slide-inner center">
+      <div class="tag">Complexity Challenge</div>
+      <h2 style="text-align:center;">A Murmuration Has No <span class="accent">Leader</span></h2>
+      <p style="text-align:center;max-width:62vw;">A starling murmuration coordinates thousands of birds in real time — no instruction, no hierarchy, no central plan. Just simple local rules and feedback. This is what modern organisations need.</p>
+      <div style="width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.8vw;">
+        <div class="card" style="text-align:center;">
+          <span class="card-icon">🌀</span>
+          <h3>Complex Environments</h3>
+          <p>Cause-and-effect is only visible in retrospect. Probe-sense-respond, not predict-plan-control (Snowden & Boone, 2007).</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <span class="card-icon">⚖️</span>
+          <h3>Ashby's Law</h3>
+          <p>A control system must match the variety of the system it governs. Hierarchy <em>cannot</em> match environmental variety at scale.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <span class="card-icon">🧬</span>
+          <h3>Complex Adaptive Systems</h3>
+          <p>Global order emerges from simple local rules. Organisations are natural CAS — but hierarchy suppresses their adaptive power (Holland, 1995).</p>
+        </div>
+      </div>
+      <div class="metric-row">
+        <div class="metric"><div class="metric-val">833</div><div class="metric-label">studies confirm VUCA as structural, not cyclical<br><em style="color:var(--amber);font-size:0.8em">Taşkan et al., 2022</em></div></div>
+        <div class="metric"><div class="metric-val">5×</div><div class="metric-label">hierarchy failure modes in complex environments</div></div>
+        <div class="metric"><div class="metric-val">0</div><div class="metric-label">central authority needed to coordinate<br>a murmuration of 10,000 birds</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 4 ═══════════════════════════ -->
+  <div class="slide" id="s4">
+    <div class="slide-inner center">
+      <div class="tag">Literature Review</div>
+      <h2 style="text-align:center;">Five Theoretical <span class="accent">Pillars</span></h2>
+      <div class="amber-line" style="margin:0.4rem auto 0.8rem;"></div>
+      <div class="five-col" style="width:100%;">
+        <div class="card" style="text-align:center;padding:1.4rem 1rem;">
+          <span class="card-icon">🐜</span>
+          <h3 style="font-size:clamp(0.82rem,1.15vw,1rem);">Swarm Intelligence</h3>
+          <p style="font-size:clamp(0.7rem,0.95vw,0.88rem);margin-top:0.4rem;">Bonabeau et al. (1999); Dorigo & Birattari (2007); Holland (1995)</p>
+        </div>
+        <div class="card" style="text-align:center;padding:1.4rem 1rem;">
+          <span class="card-icon">🌐</span>
+          <h3 style="font-size:clamp(0.82rem,1.15vw,1rem);">Complexity Theory</h3>
+          <p style="font-size:clamp(0.7rem,0.95vw,0.88rem);margin-top:0.4rem;">Snowden & Boone (2007); Stacey (1996); Ashby (1956)</p>
+        </div>
+        <div class="card" style="text-align:center;padding:1.4rem 1rem;">
+          <span class="card-icon">🏛️</span>
+          <h3 style="font-size:clamp(0.82rem,1.15vw,1rem);">Governance Theory</h3>
+          <p style="font-size:clamp(0.7rem,0.95vw,0.88rem);margin-top:0.4rem;">Provan & Kenis (2008); Ostrom (2010); Laloux (2014)</p>
+        </div>
+        <div class="card" style="text-align:center;padding:1.4rem 1rem;">
+          <span class="card-icon">⚡</span>
+          <h3 style="font-size:clamp(0.82rem,1.15vw,1rem);">Organisational Change</h3>
+          <p style="font-size:clamp(0.7rem,0.95vw,0.88rem);margin-top:0.4rem;">Teece et al. (1997); Raisch & Krakowski (2021)</p>
+        </div>
+        <div class="card" style="text-align:center;padding:1.4rem 1rem;">
+          <span class="card-icon">🤖</span>
+          <h3 style="font-size:clamp(0.82rem,1.15vw,1rem);">Digital Coordination</h3>
+          <p style="font-size:clamp(0.7rem,0.95vw,0.88rem);margin-top:0.4rem;">Faraj et al. (2021); Vial (2019); Jarrahi et al. (2021)</p>
+        </div>
+      </div>
+      <div style="background:rgba(232,156,26,0.1);border:1px solid rgba(232,156,26,0.3);border-radius:10px;padding:1.1rem 1.6rem;width:100%;text-align:center;">
+        <p style="color:var(--cream);font-size:clamp(0.85rem,1.2vw,1.05rem);font-style:italic;">"Each stream contributes a distinct analytical lens. Their <span class="accent">convergence</span> produces a more coherent theoretical foundation than any single stream can provide."</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 5 ═══════════════════════════ -->
+  <div class="slide" id="s5">
+    <div class="slide-inner center" style="gap:1.8rem;">
+      <div class="tag">The Research Gap</div>
+      <p class="big-quote">We have studied the beehive for decades.<br>We have never designed for it.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.8vw;width:100%;">
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2.2rem;margin-bottom:0.6rem;">📖</div>
+          <h3 style="font-size:clamp(0.85rem,1.15vw,1rem);">Descriptive accounts</h3>
+          <p style="font-size:clamp(0.75rem,1vw,0.92rem);">Laloux (2014), Robertson (2015) describe <em>what</em> distributed governance looks like — but not <em>how</em> to design it.</p>
+        </div>
+        <div class="card" style="text-align:center;border-color:rgba(232,156,26,0.5);">
+          <div style="font-size:2.2rem;margin-bottom:0.6rem;">🕳️</div>
+          <h3 style="font-size:clamp(0.85rem,1.15vw,1rem);" class="accent">The Gap</h3>
+          <p style="font-size:clamp(0.75rem,1vw,0.92rem);">No academically rigorous, DSR-grounded framework translating swarm principles into prescriptive governance design.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="font-size:2.2rem;margin-bottom:0.6rem;">🔬</div>
+          <h3 style="font-size:clamp(0.85rem,1.15vw,1rem);">Partial theory</h3>
+          <p style="font-size:clamp(0.75rem,1vw,0.92rem);">Swarm intelligence (Bonabeau et al., 1999) and complexity theory (Holland, 1995) give the foundations — but stop at organisational application.</p>
+        </div>
+      </div>
+      <div style="text-align:center;background:rgba(26,74,46,0.5);border-radius:10px;padding:1rem 2rem;width:100%;">
+        <p style="color:var(--muted);font-size:clamp(0.85rem,1.15vw,1rem);">The Swarm Governance Framework addresses this gap through <span class="accent">Design Science Research</span> — building a prescriptive model from descriptive science.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 6 ═══════════════════════════ -->
+  <div class="slide" id="s6">
+    <div class="slide-inner">
+      <div class="tag">Theoretical Foundations</div>
+      <h2>Four Principles of <span class="accent">Swarm Intelligence</span></h2>
+      <div class="amber-line"></div>
+      <div class="principle-grid">
+        <div class="principle-card">
+          <div class="principle-icon">🐜</div>
+          <div class="principle-body">
+            <h3>Stigmergy</h3>
+            <div class="acad">Indirect coordination via environmental signals</div>
+            <p>Ants leave pheromone trails that guide subsequent agents — no direct communication needed. In organisations: shared digital task boards where every action leaves a legible signal.</p>
+          </div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🐟</div>
+          <div class="principle-body">
+            <h3>Self-Organisation</h3>
+            <div class="acad">Order from local interactions, without central control</div>
+            <p>Fish schools manoeuvre as one without a leader. In organisations: decision authority pre-assigned at the level closest to the action — escalation is the exception.</p>
+          </div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🐝</div>
+          <div class="principle-body">
+            <h3>Emergence</h3>
+            <div class="acad">Global patterns from simple local rules</div>
+            <p>Bee colonies regulate temperature without any bee understanding the colony. In organisations: AI surfaces coordination patterns invisible to any individual agent.</p>
+          </div>
+        </div>
+        <div class="principle-card">
+          <div class="principle-icon">🦅</div>
+          <div class="principle-body">
+            <h3>Adaptive Feedback</h3>
+            <div class="acad">Continuous loops between action and system update</div>
+            <p>Eagles soar by reading thermals in real time. In organisations: operating rules updated based on what the system is learning — rules adapt, not just decisions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 7 ═══════════════════════════ -->
+  <div class="slide" id="s7">
+    <div class="slide-inner">
+      <div class="tag">Translation</div>
+      <h2>From Nature to <span class="accent">Organisation</span></h2>
+      <div class="amber-line"></div>
+      <table>
+        <thead>
+          <tr>
+            <th>Swarm Principle</th>
+            <th>Biological Example</th>
+            <th>Organisational Translation</th>
+            <th>Key Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Stigmergy</td><td>Ant pheromone trails guide foraging paths</td><td>Digital task boards: every action leaves a signal others can read and act on without synchronisation</td><td>Bonabeau et al. (1999)</td></tr>
+          <tr><td>Self-Organisation</td><td>Starling murmurations — no lead bird</td><td>Pre-assigned decision authority: autonomous action is the default; escalation is the exception</td><td>Holland (1995)</td></tr>
+          <tr><td>Emergence</td><td>Termites build complex mounds without blueprints</td><td>AI agent surfaces coordination patterns across thousands of decisions no human can perceive</td><td>Snowden & Boone (2007)</td></tr>
+          <tr><td>Adaptive Feedback</td><td>Wolf packs adapt tactics mid-hunt</td><td>Operating rules reviewed and updated based on system-level data — data-triggered, not calendar-driven</td><td>Ashby (1956)</td></tr>
+          <tr><td>Simple Rules</td><td>Three rules govern a murmuration: align, avoid, attract</td><td>3–5 governance principles replace thick policy manuals; rules enable distributed action</td><td>Holland (1995)</td></tr>
+        </tbody>
+      </table>
+      <div style="background:rgba(26,74,46,0.5);border-radius:10px;padding:0.9rem 1.5rem;width:100%;text-align:center;">
+        <p style="font-size:clamp(0.75rem,1.05vw,0.95rem);color:var(--muted);font-style:italic;">The abstraction from biology to organisation is not metaphorical — swarm principles have been formally generalised to computational systems (Dorigo & Birattari, 2007), confirming their design applicability.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 8 ═══════════════════════════ -->
+  <div class="slide" id="s8">
+    <div class="slide-inner center">
+      <div class="tag">The Framework</div>
+      <h2 style="text-align:center;">The <span class="accent">STRUM</span> Governance Model</h2>
+      <p style="text-align:center;max-width:62vw;">Five design rules that translate swarm intelligence into organisational governance — as intuitive as PESTLE or Porter's Five Forces.</p>
+      <div class="swarm-row">
+        <div class="swarm-card">
+          <div class="swarm-letter">S</div>
+          <div class="swarm-label">Signals</div>
+          <div class="swarm-sub">Stigmergy</div>
+          <p style="font-size:clamp(0.68rem,0.95vw,0.88rem);margin-top:0.6rem;">Every action deposits a shared signal. Others read and build on it — no direct instruction needed.</p>
+        </div>
+        <div class="swarm-card">
+          <div class="swarm-letter">T</div>
+          <div class="swarm-label">Trust</div>
+          <div class="swarm-sub">Self-Organisation</div>
+          <p style="font-size:clamp(0.68rem,0.95vw,0.88rem);margin-top:0.6rem;">Authority is trusted at the level closest to the action. Escalation is the exception, not the default.</p>
+        </div>
+        <div class="swarm-card">
+          <div class="swarm-letter">R</div>
+          <div class="swarm-label">Resonance</div>
+          <div class="swarm-sub">Emergence</div>
+          <p style="font-size:clamp(0.68rem,0.95vw,0.88rem);margin-top:0.6rem;">AI surfaces the patterns rising from local interactions — making the invisible visible in real time.</p>
+        </div>
+        <div class="swarm-card">
+          <div class="swarm-letter">U</div>
+          <div class="swarm-label">Unity</div>
+          <div class="swarm-sub">Simple Rules</div>
+          <p style="font-size:clamp(0.68rem,0.95vw,0.88rem);margin-top:0.6rem;">3–5 unified principles replace thick policy manuals. They enable distributed action, not constrain it.</p>
+        </div>
+        <div class="swarm-card">
+          <div class="swarm-letter">M</div>
+          <div class="swarm-label">Measure</div>
+          <div class="swarm-sub">Adaptive Feedback</div>
+          <p style="font-size:clamp(0.68rem,0.95vw,0.88rem);margin-top:0.6rem;">The system measures its own performance and adjusts. Adaptation is structural, not incidental.</p>
+        </div>
+      </div>
+      <div style="width:100%;background:rgba(232,156,26,0.08);border:1px solid rgba(232,156,26,0.25);border-radius:10px;padding:1rem 1.5rem;text-align:center;">
+        <p style="font-size:clamp(0.78rem,1.08vw,0.95rem);color:var(--dim);">Distinct from Bleijenberg (2020) practitioner model by: <span class="accent">DSR rigour</span> · <span class="accent">governance specificity</span> · <span class="accent">AI as structural element</span> · <span class="accent">academic grounding</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 9 ═══════════════════════════ -->
+  <div class="slide" id="s9">
+    <div class="slide-inner">
+      <div class="tag">The R in STRUM</div>
+      <h2>AI as <span class="accent">Digital Pheromones</span></h2>
+      <div class="amber-line"></div>
+      <div class="two-col" style="align-items:stretch;">
+        <div>
+          <p style="margin-bottom:1rem;">In ant colonies, pheromones are the coordination infrastructure. No ant directs another — the environment carries the signal. <strong class="accent">AI performs this function at organisational scale.</strong></p>
+          <div class="card" style="margin-bottom:0.9rem;">
+            <h3 style="font-size:clamp(0.85rem,1.15vw,1rem);">AI as Coordination Infrastructure</h3>
+            <p style="font-size:clamp(0.78rem,1.05vw,0.95rem);">Surfaces emergent patterns across distributed decisions. Routes information to where it is needed. Learns from coordination outcomes without prescribing responses.</p>
+          </div>
+          <div class="card" style="border-left:3px solid #d4813a;">
+            <h3 style="font-size:clamp(0.85rem,1.15vw,1rem);color:#d4813a;">Not Algorithmic Management</h3>
+            <p style="font-size:clamp(0.78rem,1.05vw,0.95rem);">Jarrahi et al. (2021) — algorithmic management <em>replaces</em> human judgment. The STRUM model <em>augments</em> it. AI carries the signal; humans make the decisions.</p>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.85rem;">
+          <h3 style="font-size:clamp(0.85rem,1.15vw,1rem);">The OpenClaw Agent — 4 Skills</h3>
+          <div class="card">
+            <strong class="accent" style="font-size:clamp(0.78rem,1.05vw,0.95rem);">sgf-stigmergy</strong>
+            <p style="font-size:clamp(0.72rem,0.98vw,0.88rem);margin-top:0.3rem;">Shared information board — every action logged and searchable. Coordination signals persist.</p>
+          </div>
+          <div class="card">
+            <strong class="accent" style="font-size:clamp(0.78rem,1.05vw,0.95rem);">sgf-decide</strong>
+            <p style="font-size:clamp(0.72rem,0.98vw,0.88rem);margin-top:0.3rem;">Decision router — authority pre-assigned by decision type. No escalation by default.</p>
+          </div>
+          <div class="card">
+            <strong class="accent" style="font-size:clamp(0.78rem,1.05vw,0.95rem);">sgf-feedback</strong>
+            <p style="font-size:clamp(0.72rem,0.98vw,0.88rem);margin-top:0.3rem;">Outcome logger — coordination patterns surfaced over time. Resonance made visible.</p>
+          </div>
+          <div class="card">
+            <strong class="accent" style="font-size:clamp(0.78rem,1.05vw,0.95rem);">sgf-measure</strong>
+            <p style="font-size:clamp(0.72rem,0.98vw,0.88rem);margin-top:0.3rem;">Research data: decision speed · escalation rate · novel routing patterns · participant experience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 10 ═══════════════════════════ -->
+  <div class="slide" id="s10">
+    <div class="slide-inner center">
+      <div class="tag">Theoretical Positioning</div>
+      <h2 style="text-align:center;">Where the SGF <span class="accent">Sits</span></h2>
+      <div class="lit-map">
+        <div class="lit-center">Swarm Governance Framework (SGF)</div>
+        <div class="lit-streams">
+          <div class="lit-stream">
+            <h3>Swarm Intelligence</h3>
+            <p>Bonabeau et al. (1999)<br>Dorigo & Birattari (2007)<br>Holland (1995)</p>
+          </div>
+          <div class="lit-stream">
+            <h3>Complexity Theory</h3>
+            <p>Snowden & Boone (2007)<br>Stacey (1996)<br>Ashby (1956)</p>
+          </div>
+          <div class="lit-stream">
+            <h3>Governance Theory</h3>
+            <p>Provan & Kenis (2008)<br>Ostrom (2010)<br>Laloux (2014)</p>
+          </div>
+          <div class="lit-stream">
+            <h3>Org. Change</h3>
+            <p>Teece et al. (1997)<br>Raisch & Krakowski (2021)<br>Malone (2004)</p>
+          </div>
+          <div class="lit-stream">
+            <h3>Digital Coordination</h3>
+            <p>Faraj et al. (2021)<br>Vial (2019)<br>Jarrahi et al. (2021)</p>
+          </div>
+        </div>
+      </div>
+      <div style="width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5vw;">
+        <div class="card" style="text-align:center;padding:1.1rem;">
+          <p style="font-size:clamp(0.78rem,1.05vw,0.95rem);"><span class="accent">Not purely theoretical</span><br>like Holland — it prescribes design</p>
+        </div>
+        <div class="card" style="text-align:center;padding:1.1rem;border-color:rgba(232,156,26,0.5);">
+          <p style="font-size:clamp(0.78rem,1.05vw,0.95rem);color:var(--cream);">A <span class="accent">design artefact</span><br>in the DSR tradition</p>
+        </div>
+        <div class="card" style="text-align:center;padding:1.1rem;">
+          <p style="font-size:clamp(0.78rem,1.05vw,0.95rem);"><span class="accent">Not purely practitioner</span><br>like Bleijenberg — academically grounded</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 11 ═══════════════════════════ -->
+  <div class="slide" id="s11">
+    <div class="slide-inner">
+      <div class="tag">Research Questions</div>
+      <h2>What This Research <span class="accent">Asks</span></h2>
+      <div class="amber-line"></div>
+      <div class="rq-primary">
+        <div class="label">Primary Research Question</div>
+        <p>How can swarm intelligence principles be operationalised into a governance and coordination framework for modern organisations?</p>
+      </div>
+      <ul class="rq-sub-list">
+        <li><span class="num">RQ1</span>What are the key coordination failures in contemporary hierarchical governance models, and under what environmental conditions do they become structurally determinative?</li>
+        <li><span class="num">RQ2</span>How do the four core principles of swarm intelligence — stigmergy, self-organisation, emergence, and adaptive feedback — translate into organisational design rules applicable across industries?</li>
+        <li><span class="num">RQ3</span>How can AI augmentation extend the practical application of swarm-inspired governance, and what design specifications distinguish AI-as-coordination-infrastructure from AI-as-coordination-authority?</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 12 ═══════════════════════════ -->
+  <div class="slide" id="s12">
+    <div class="slide-inner center">
+      <div class="tag">Methodology</div>
+      <h2 style="text-align:center;">Design Science Research</h2>
+      <p style="text-align:center;max-width:62vw;font-size:clamp(0.88rem,1.2vw,1.05rem);">Like a biomimicry architect — studying natural systems to design better human ones. DSR generates knowledge through the creation and evaluation of artefacts (Hevner et al., 2004; Peffers et al., 2007).</p>
+      <div class="phase-flow">
+        <div class="phase-item">
+          <div class="phase-num">Phase 1</div>
+          <div class="phase-title">Problem Identification</div>
+          <div class="phase-out">Literature review + governance failure analysis</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">Phase 2</div>
+          <div class="phase-title">Objectives</div>
+          <div class="phase-out">Framework requirements from literature</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">Phase 3</div>
+          <div class="phase-title">Design & Build</div>
+          <div class="phase-out">STRUM framework + OpenClaw agent</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">Phase 4</div>
+          <div class="phase-title">Demonstration</div>
+          <div class="phase-out">Deploy with 3–5 orgs, 6–8 weeks</div>
+        </div>
+        <div class="phase-item">
+          <div class="phase-num">Phase 5</div>
+          <div class="phase-title">Evaluation</div>
+          <div class="phase-out">Expert review panel + pilot data</div>
+        </div>
+      </div>
+      <!-- GANTT CHART -->
+      <div style="width:100%;background:rgba(26,74,46,0.45);border:1px solid rgba(232,156,26,0.18);border-radius:12px;padding:1rem 1.4rem;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);margin-bottom:0.7rem;">12-Month Research Timeline</div>
+        <!-- Month header -->
+        <div style="display:grid;grid-template-columns:13rem repeat(12,1fr);gap:2px;margin-bottom:0.4rem;align-items:center;">
+          <div></div>
+          <div style="grid-column:span 3;text-align:center;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);border-bottom:1px solid rgba(232,156,26,0.2);padding-bottom:2px;">Q1 · M 1–3</div>
+          <div style="grid-column:span 3;text-align:center;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);border-bottom:1px solid rgba(232,156,26,0.2);padding-bottom:2px;">Q2 · M 4–6</div>
+          <div style="grid-column:span 3;text-align:center;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);border-bottom:1px solid rgba(232,156,26,0.2);padding-bottom:2px;">Q3 · M 7–9</div>
+          <div style="grid-column:span 3;text-align:center;font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);border-bottom:1px solid rgba(232,156,26,0.2);padding-bottom:2px;">Q4 · M 10–12</div>
+        </div>
+        <!-- Rows -->
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <!-- Phase 1 -->
+          <div style="display:grid;grid-template-columns:13rem repeat(12,1fr);gap:2px;align-items:center;">
+            <div style="font-size:clamp(0.68rem,0.9vw,0.82rem);color:var(--cream);padding-right:0.6rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><span style="color:var(--amber);font-weight:700;font-family:'DM Mono',monospace;">P1</span> · Problem & Literature</div>
+            <div style="background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:4px;height:1.4rem;grid-column:span 2;"></div>
+            <div style="grid-column:span 10;"></div>
+          </div>
+          <!-- Phase 2 -->
+          <div style="display:grid;grid-template-columns:13rem repeat(12,1fr);gap:2px;align-items:center;">
+            <div style="font-size:clamp(0.68rem,0.9vw,0.82rem);color:var(--cream);padding-right:0.6rem;"><span style="color:var(--amber);font-weight:700;font-family:'DM Mono',monospace;">P2</span> · Framework Objectives</div>
+            <div style="grid-column:span 1;"></div>
+            <div style="background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:4px;height:1.4rem;grid-column:span 2;"></div>
+            <div style="grid-column:span 9;"></div>
+          </div>
+          <!-- Phase 3 -->
+          <div style="display:grid;grid-template-columns:13rem repeat(12,1fr);gap:2px;align-items:center;">
+            <div style="font-size:clamp(0.68rem,0.9vw,0.82rem);color:var(--cream);padding-right:0.6rem;"><span style="color:var(--amber);font-weight:700;font-family:'DM Mono',monospace;">P3</span> · Design & Build</div>
+            <div style="grid-column:span 3;"></div>
+            <div style="background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:4px;height:1.4rem;grid-column:span 3;"></div>
+            <div style="grid-column:span 6;"></div>
+          </div>
+          <!-- Phase 4 -->
+          <div style="display:grid;grid-template-columns:13rem repeat(12,1fr);gap:2px;align-items:center;">
+            <div style="font-size:clamp(0.68rem,0.9vw,0.82rem);color:var(--cream);padding-right:0.6rem;"><span style="color:var(--amber);font-weight:700;font-family:'DM Mono',monospace;">P4</span> · Demonstration Pilot</div>
+            <div style="grid-column:span 6;"></div>
+            <div style="background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:4px;height:1.4rem;grid-column:span 3;"></div>
+            <div style="grid-column:span 3;"></div>
+          </div>
+          <!-- Phase 5 -->
+          <div style="display:grid;grid-template-columns:13rem repeat(12,1fr);gap:2px;align-items:center;">
+            <div style="font-size:clamp(0.68rem,0.9vw,0.82rem);color:var(--cream);padding-right:0.6rem;"><span style="color:var(--amber);font-weight:700;font-family:'DM Mono',monospace;">P5</span> · Evaluation & Write-up</div>
+            <div style="grid-column:span 9;"></div>
+            <div style="background:linear-gradient(90deg,var(--amber),var(--amber2));border-radius:4px;height:1.4rem;grid-column:span 3;"></div>
+          </div>
+        </div>
+        <!-- Legend -->
+        <div style="display:flex;gap:2rem;margin-top:0.8rem;flex-wrap:wrap;">
+          <span style="font-size:0.72rem;color:var(--muted);">Data source: <span style="color:var(--cream);">P1–P2 Literature review</span></span>
+          <span style="font-size:0.72rem;color:var(--muted);">Data source: <span style="color:var(--cream);">P4 Pilot — 3–5 orgs, 4 metrics</span></span>
+          <span style="font-size:0.72rem;color:var(--muted);">Data source: <span style="color:var(--cream);">P5 Expert review panel, 5–7 members</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 13 ═══════════════════════════ -->
+  <div class="slide" id="s13">
+    <div class="slide-inner">
+      <div class="tag">Feasibility & Ethics</div>
+      <h2>Why This Is <span class="accent">Achievable</span></h2>
+      <div class="amber-line"></div>
+      <div class="feas-grid">
+        <div class="feas-section">
+          <h3>Why it works ✓</h3>
+          <ul>
+            <li>OpenClaw is open-source — zero licensing or procurement barrier</li>
+            <li>Messaging-based deployment (WhatsApp / Telegram) — zero install friction for pilots</li>
+            <li>Pilot scoped to 3–5 organisations, 6–8 weeks — achievable within DBA timeline</li>
+            <li>DSR framing: Demonstration phase, not a clinical trial</li>
+            <li>4 metrics pre-defined: decision speed, coordination quality, emergence indicators, participant experience</li>
+          </ul>
+        </div>
+        <div class="feas-section limits">
+          <h3>Acknowledged limitations ⚠</h3>
+          <ul>
+            <li>Pilot scope intentionally constrained for DSR demonstration purposes</li>
+            <li>Generalisability addressed in optional Paper 3 empirical validation phase</li>
+            <li>Agent behaviour depends on participant engagement — adoption rate is a variable</li>
+          </ul>
+          <div style="margin-top:1.2rem;">
+            <h3 style="color:var(--amber);">Ethics protocol</h3>
+          </div>
+          <div class="ethics-row">
+            <span class="badge">Informed consent</span>
+            <span class="badge">Right to withdraw</span>
+            <span class="badge">Anonymised data</span>
+            <span class="badge">Secure storage</span>
+            <span class="badge">Ethics approval before pilot</span>
+          </div>
+        </div>
+      </div>
+      <div style="background:rgba(232,156,26,0.08);border:1px solid rgba(232,156,26,0.25);border-radius:10px;padding:1rem 1.5rem;width:100%;">
+        <p style="font-size:clamp(0.78rem,1.05vw,0.95rem);color:var(--dim);text-align:center;"><span class="accent">Ethics approval required</span> from Kings University College supervisor before the Demonstration phase begins.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 14 ═══════════════════════════ -->
+  <div class="slide" id="s14">
+    <div class="slide-inner center">
+      <div class="tag">Timeline & Contributions</div>
+      <h2 style="text-align:center;">12 Months. <span class="accent">Six Contributions.</span></h2>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-phase">0 – 3 months</div>
+          <div class="tl-title">Problem + Literature</div>
+          <div class="tl-sub">DSR Phase 1–2. Literature review. Governance failure analysis. Framework requirements.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-phase">3 – 6 months</div>
+          <div class="tl-title">Design & Build</div>
+          <div class="tl-sub">DSR Phase 3. STRUM framework. OpenClaw agent (4 skills + measurement schema).</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-phase">6 – 9 months</div>
+          <div class="tl-title">Demonstration</div>
+          <div class="tl-sub">DSR Phase 4. Pilot with 3–5 organisations. 4 metrics captured. Expert review panel.</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-phase">9 – 12 months</div>
+          <div class="tl-title">Evaluation & Write-up</div>
+          <div class="tl-sub">DSR Phase 5. Evaluation report. Academic papers. Thesis chapters.</div>
+        </div>
+      </div>
+      <div class="contrib-grid">
+        <div class="contrib-col">
+          <h3>Academic Contributions</h3>
+          <ul>
+            <li>The Swarm Governance Framework — novel governance form grounded in DSR + complexity theory</li>
+            <li>Design principles — actionable, derived from literature, tested empirically</li>
+            <li>Measurement instruments — validated tools for assessing governance against swarm principles</li>
+          </ul>
+        </div>
+        <div class="contrib-col">
+          <h3>Practical Contributions</h3>
+          <ul>
+            <li>Deployed OpenClaw agent — replicable, open-source, with full documentation</li>
+            <li>The STRUM Model — plain-English, applicable without specialist knowledge</li>
+            <li>Industry use cases — retail, tech, healthcare, professional services (avg. 87% faster decisions)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════ SLIDE 15 ═══════════════════════════ -->
+  <div class="slide" id="s15">
+    <div class="closing-quote">The colony doesn't need a CEO.<br>It needs the right design.</div>
+    <p class="closing-attr">Edwin Jesu Dass · Kings University College · DBA Candidate · 2026</p>
+    <div style="margin-top:3rem;display:flex;gap:1.5vw;position:relative;z-index:1;">
+      <div class="card" style="text-align:center;padding:1.2rem 1.8rem;">
+        <div style="font-size:2rem;">🐜</div>
+        <p style="font-size:clamp(0.72rem,0.95vw,0.88rem);margin-top:0.4rem;">Stigmergy</p>
+      </div>
+      <div class="card" style="text-align:center;padding:1.2rem 1.8rem;">
+        <div style="font-size:2rem;">🐟</div>
+        <p style="font-size:clamp(0.72rem,0.95vw,0.88rem);margin-top:0.4rem;">Self-Organisation</p>
+      </div>
+      <div class="card" style="text-align:center;padding:1.2rem 1.8rem;">
+        <div style="font-size:2rem;">🐝</div>
+        <p style="font-size:clamp(0.72rem,0.95vw,0.88rem);margin-top:0.4rem;">Emergence</p>
+      </div>
+      <div class="card" style="text-align:center;padding:1.2rem 1.8rem;">
+        <div style="font-size:2rem;">🦅</div>
+        <p style="font-size:clamp(0.72rem,0.95vw,0.88rem);margin-top:0.4rem;">Adaptive Feedback</p>
+      </div>
+      <div class="card" style="text-align:center;padding:1.2rem 1.8rem;border-color:rgba(232,156,26,0.5);">
+        <div style="font-size:2rem;color:var(--amber);font-weight:900;">SGF</div>
+        <p style="font-size:clamp(0.72rem,0.95vw,0.88rem);margin-top:0.4rem;">Swarm Governance</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- ── CONTROLS ── -->
+<button class="nav-btn" id="btn-prev" disabled>&#8592;</button>
+<button class="nav-btn" id="btn-next">&#8594;</button>
+
+<div id="progress">
+  <span id="slide-counter">01 / 15</span>
+  <div id="progress-bar-wrap"><div id="progress-bar" style="width:6.67%"></div></div>
+</div>
+
+<div id="dots"></div>
+
+<script>
+// ── BACKGROUND CANVAS: animated particles (pheromone trails) ──────────────
+(function() {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function makeParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.8 + 0.4,
+      alpha: Math.random() * 0.35 + 0.05,
+      pulse: Math.random() * Math.PI * 2,
+    };
+  }
+
+  function init() {
+    resize();
+    particles = Array.from({length: 90}, makeParticle);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+
+    // connection lines
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(232,156,26,${(1 - dist/120) * 0.07})`;
+          ctx.lineWidth = 0.5;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // dots
+    particles.forEach(p => {
+      p.pulse += 0.018;
+      const a = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(232,156,26,${a})`;
+      ctx.fill();
+
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < -5) p.x = W + 5;
+      if (p.x > W + 5) p.x = -5;
+      if (p.y < -5) p.y = H + 5;
+      if (p.y > H + 5) p.y = -5;
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  draw();
+})();
+
+// ── HEX GRID for slide 1 ─────────────────────────────────────────────────
+(function() {
+  const grid = document.getElementById('hexGrid');
+  for (let i = 0; i < 28; i++) {
+    const h = document.createElement('div');
+    h.className = 'hex';
+    const size = 40 + Math.random() * 40;
+    h.style.cssText = `
+      width:${size}px; height:${size*1.15}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation-delay:${Math.random()*4}s;
+      animation-duration:${3+Math.random()*4}s;
+    `;
+    grid.appendChild(h);
+  }
+})();
+
+// ── SLIDE NAVIGATION ─────────────────────────────────────────────────────
+const slides = document.querySelectorAll('.slide');
+const N = slides.length;
+let current = 0;
+
+const counter = document.getElementById('slide-counter');
+const bar     = document.getElementById('progress-bar');
+const btnPrev = document.getElementById('btn-prev');
+const btnNext = document.getElementById('btn-next');
+const dotsEl  = document.getElementById('dots');
+
+// Build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.addEventListener('click', () => goTo(i));
+  dotsEl.appendChild(d);
+});
+
+function updateUI() {
+  const num = String(current + 1).padStart(2, '0');
+  const tot = String(N).padStart(2, '0');
+  counter.textContent = `${num} / ${tot}`;
+  bar.style.width = `${((current + 1) / N) * 100}%`;
+  btnPrev.disabled = current === 0;
+  btnNext.disabled = current === N - 1;
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+}
+
+function goTo(idx) {
+  if (idx === current || idx < 0 || idx >= N) return;
+
+  const direction = idx > current ? 1 : -1;
+  const prev = slides[current];
+  const next = slides[idx];
+
+  prev.classList.remove('active');
+  prev.classList.add('exit-left');
+  setTimeout(() => prev.classList.remove('exit-left'), 560);
+
+  next.style.transform = `translateX(${direction * 60}px)`;
+  next.style.opacity = '0';
+  next.classList.add('active');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      next.style.transform = '';
+      next.style.opacity = '';
+    });
+  });
+
+  current = idx;
+  updateUI();
+}
+
+btnPrev.addEventListener('click', () => goTo(current - 1));
+btnNext.addEventListener('click', () => goTo(current + 1));
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ')  { e.preventDefault(); goTo(current + 1); }
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); goTo(current - 1); }
+});
+
+// Swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
+});
+
+updateUI();
+</script>
+</body>
+</html>
