@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Johor: PRN 2022 vs GE15 — DUN Comparison — Edwin Jesu Dass</title>
+<meta name="description" content="Electoral analysis comparing PRN Johor (March 2022) and GE15 (November 2022) across all 56 DUN seats and 26 Parliament seats." />
+<meta name="author" content="Edwin Jesu Dass" />
+<meta name="theme-color" content="#0d0f14" />
+<meta name="robots" content="index,follow" />
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Johor: PRN 2022 vs GE15 — DUN Comparison" />
+<meta property="og:description" content="Electoral analysis comparing PRN Johor and GE15 across all DUN and Parliament seats." />
+<meta property="og:url" content="https://edwinjd.com/johor-elections.html" />
+<meta property="og:locale" content="en_MY" />
+<meta property="og:site_name" content="Edwin Jesu Dass" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Johor: PRN 2022 vs GE15 — DUN Comparison" />
+<meta name="twitter:description" content="Electoral analysis comparing PRN Johor and GE15 across all DUN and Parliament seats." />
+
+<link rel="canonical" href="https://edwinjd.com/johor-elections.html" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="styles.css" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --bg:#0d0f14; --surface:#141720; --border:#1e2330;
+  --ph:#3b82f6; --ph-bg:#0f1e35; --ph-border:#1e3a5f;
+  --bn:#ef4444; --bn-bg:#2a0f0f; --bn-border:#5f1e1e;
+  --pn:#10b981; --pn-bg:#0a2418; --pn-border:#1a4a30;
+  --muda:#f59e0b; --muda-bg:#2a1e08; --muda-border:#5a3e10;
+  --text:#d4d8e2; --muted:#5a6070; --accent:#c4963a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+.page-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.5;-webkit-text-size-adjust:100%;overflow-x:hidden}
+
+.backbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 48px;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase}
+.backbar a{color:var(--muted);text-decoration:none;transition:color .2s}
+.backbar a:hover{color:var(--accent)}
+
+.header{padding:32px 40px 24px;border-bottom:1px solid var(--border)}
+.header-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:8px}
+.header h1{font-size:1.5rem;font-weight:700;color:#eef0f5;margin-bottom:4px}
+.header p{color:var(--muted);font-size:.8rem;max-width:700px}
+.header-meta{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.meta-pill{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);background:var(--surface);border:1px solid var(--border);padding:3px 10px;border-radius:20px}
+
+.container{max-width:1400px;margin:0 auto;padding:28px 40px;overflow-x:hidden}
+
+/* Summary row */
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.sum-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px 18px}
+.sum-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.sum-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.sum-election{font-size:.7rem;color:var(--muted)}
+.sum-value{font-size:.9rem;font-weight:700}
+
+/* Legend */
+.legend{display:flex;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:.72rem;color:var(--muted)}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* Main table */
+.parl-section{margin-bottom:32px}
+.parl-header{background:#1a1f2e;border:1px solid var(--border);border-radius:8px 8px 0 0;padding:12px 16px;display:grid;grid-template-columns:180px 1fr 1fr;gap:12px;align-items:center}
+.parl-name{font-weight:700;color:#eef0f5;font-size:.85rem}
+.parl-ge15{font-size:.72rem;word-break:break-word}
+.parl-sub{font-size:.68rem;color:var(--muted)}
+
+.dun-row{display:grid;grid-template-columns:180px 1fr 1fr;gap:12px;padding:10px 16px;border:1px solid var(--border);border-top:none;align-items:start;background:var(--surface);transition:background .15s}
+.dun-row:last-child{border-radius:0 0 8px 8px}
+.dun-row:hover{background:#191e2c}
+
+.dun-name{font-size:.78rem;color:#c4ccd8;font-weight:500}
+.dun-no{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:2px}
+
+.cell{display:flex;flex-direction:column;gap:3px}
+.winner-line{display:flex;align-items:center;gap:7px}
+.badge{font-family:'DM Mono',monospace;font-size:.58rem;padding:2px 7px;border-radius:3px;white-space:nowrap;flex-shrink:0;font-weight:600}
+.badge-ph{background:var(--ph-bg);color:var(--ph);border:1px solid var(--ph-border)}
+.badge-bn{background:var(--bn-bg);color:var(--bn);border:1px solid var(--bn-border)}
+.badge-pn{background:var(--pn-bg);color:var(--pn);border:1px solid var(--pn-border)}
+.badge-muda{background:var(--muda-bg);color:var(--muda);border:1px solid var(--muda-border)}
+.winner-name{font-size:.75rem;color:#eef0f5}
+.maj-line{font-size:.68rem;color:var(--muted)}
+.flip-badge{font-family:'DM Mono',monospace;font-size:.55rem;padding:1px 6px;border-radius:3px;margin-left:auto;white-space:nowrap;flex-shrink:0}
+.flip-ph{background:#0f1e35;color:#60a5fa;border:1px solid #1e3a5f}
+.flip-bn{background:#2a0f0f;color:#f87171;border:1px solid #5f1e1e}
+.flip-pn{background:#0a2418;color:#34d399;border:1px solid #1a4a30}
+.flip-held{background:#1a1f2e;color:#9ca3af;border:1px solid #374151}
+
+.col-header{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+
+/* Insights */
+.insights-section{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin-bottom:24px}
+.insights-title{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.insight-item{display:flex;gap:10px;font-size:.76rem;color:var(--text);line-height:1.6}
+.insight-icon{font-size:.9rem;flex-shrink:0;margin-top:1px}
+strong{color:#eef0f5}
+
+/* Charts */
+.viz-section{max-width:1400px;margin:0 auto;padding:0 40px 48px}
+.viz-title{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;padding-top:32px;border-top:1px solid var(--border)}
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.charts-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-box{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 22px}
+.chart-box.wide{grid-column:span 2}
+.chart-label{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.chart-canvas{max-height:240px;width:100%!important}
+
+/* Turnout */
+.turnout-bar-wrap{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.turnout-label{font-size:.75rem;color:var(--text);width:120px;flex-shrink:0}
+.turnout-bg{flex:1;background:var(--border);border-radius:4px;height:22px;overflow:hidden;position:relative}
+.turnout-fill{height:22px;border-radius:4px;display:flex;align-items:center;padding-left:10px;font-family:'DM Mono',monospace;font-size:.65rem;color:#fff;font-weight:600;white-space:nowrap}
+.turnout-pct{font-family:'DM Mono',monospace;font-size:.72rem;color:var(--muted);width:48px;text-align:right;flex-shrink:0}
+
+/* Swing table */
+.swing-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.swing-table{width:100%;border-collapse:collapse;font-size:.76rem}
+.swing-table th{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)}
+.swing-table td{padding:8px 12px;border-bottom:1px solid #191e2c;color:var(--text)}
+.swing-table tr:hover td{background:#191e2c}
+.swing-pos{color:#34d399;font-weight:600}
+.swing-neg{color:#f87171;font-weight:600}
+.flip-ph-tag{font-family:'DM Mono',monospace;font-size:.58rem;background:#0f1e35;color:#60a5fa;border:1px solid #1e3a5f;padding:1px 6px;border-radius:3px}
+.flip-bn-tag{font-family:'DM Mono',monospace;font-size:.58rem;background:#2a0f0f;color:#f87171;border:1px solid #5f1e1e;padding:1px 6px;border-radius:3px}
+.flip-pn-tag{font-family:'DM Mono',monospace;font-size:.58rem;background:#0a2418;color:#34d399;border:1px solid #1a4a30;padding:1px 6px;border-radius:3px}
+.held-tag{font-family:'DM Mono',monospace;font-size:.58rem;background:#1a1f2e;color:#9ca3af;border:1px solid #374151;padding:1px 6px;border-radius:3px}
+.t-label{font-family:'DM Mono',monospace;font-size:.63rem;font-weight:600;color:#fff}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .header { padding: 20px 18px 16px; }
+  .header h1 { font-size: 1.1rem; }
+  .header p { font-size: .75rem; }
+  .header-meta { gap: 6px; }
+  .meta-pill { font-size: .58rem; padding: 3px 8px; }
+  .container { padding: 16px 14px; }
+  .summary-grid { grid-template-columns: 1fr 1fr; }
+  .parl-header { grid-template-columns: 1fr; gap: 6px; }
+  .parl-name { font-size: .82rem; }
+  .dun-row { grid-template-columns: 1fr; gap: 8px; padding: 12px 14px; }
+  .col-header { display: none; }
+  .dun-row > div:first-child { display: flex; align-items: center; gap: 8px; }
+  .dun-no { margin-bottom: 0; }
+  .winner-line { flex-wrap: wrap; gap: 5px; }
+  .flip-badge { margin-left: 0; }
+  .viz-section { padding: 0 14px 36px; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .charts-grid-3 { grid-template-columns: 1fr; }
+  .chart-box.wide { grid-column: span 1; }
+  .turnout-label { width: 90px; font-size: .7rem; }
+  .turnout-fill { font-size: .58rem; }
+  .swing-table { font-size: .68rem; }
+  .swing-table th, .swing-table td { padding: 6px 8px; }
+  .swing-table th:nth-child(2), .swing-table td:nth-child(2) { display: none; }
+  .swing-table th:nth-child(5), .swing-table td:nth-child(5) { display: none; }
+  .insight-grid { grid-template-columns: 1fr; }
+  .legend { gap: 10px; }
+  .legend-item { font-size: .68rem; }
+}
+@media (max-width: 480px) {
+  .header h1 { font-size: 1rem; }
+  .summary-grid { grid-template-columns: 1fr; }
+  .parl-ge15 { font-size: .7rem; }
+  .winner-name { font-size: .72rem; }
+  .maj-line { font-size: .65rem; }
+}
+</style>
+</head>
+<body class="page-body">
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">Edwin Jesu Dass</a>
+    <nav>
+      <a href="index.html#about">About</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="swarm-governance.html">Research</a>
+      <a href="analyses.html">Analyses</a>
+      <a href="index.html#writing">Writing</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<div class="backbar"><a href="analyses.html">&#8592; Back to Analyses</a></div>
+
+<div class="header">
+  <div class="header-label">Electoral Analysis · Johor · Malaysia</div>
+  <h1>PRN Johor (March 2022) vs GE15 (November 2022)</h1>
+  <p>How DUN state seats under each parliamentary constituency voted in the Johor state election, and how those same voters swung eight months later in the federal election</p>
+  <div class="header-meta">
+    <span class="meta-pill">PRN Johor: 12 March 2022</span>
+    <span class="meta-pill">GE15: 19 November 2022</span>
+    <span class="meta-pill">56 DUN seats · 26 Parliament seats</span>
+    <span class="meta-pill">8 months apart</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="insights-section">
+    <div class="insights-title">Key Findings</div>
+    <div class="insight-grid">
+      <div class="insight-item"><span class="insight-icon">&#128202;</span><div><strong>BN landslide in PRN, reversed in GE15.</strong> BN won 40/56 DUN seats in March 2022 with a 2/3 majority. Eight months later in the same constituencies, PH won 15/26 parliamentary seats — a complete reversal of the narrative.</div></div>
+      <div class="insight-item"><span class="insight-icon">&#128260;</span><div><strong>Massive swing to PH at federal level.</strong> Parliamentary seats like Iskandar Puteri (Liew Chin Tong, 60K+ majority), Pulai (Salahuddin, 33K), and Bakri flipped dramatically from their underlying BN-dominant DUN seats — showing voters split their ballots heavily.</div></div>
+      <div class="insight-item"><span class="insight-icon">&#128499;</span><div><strong>Turnout surge.</strong> PRN Johor saw only 54.9% turnout — the lowest for any Johor state election. GE15 turnout in the same state shot up to 72.7%, bringing in ~450,000 additional voters who likely skewed strongly toward PH/urban candidates.</div></div>
+      <div class="insight-item"><span class="insight-icon">&#127969;</span><div><strong>Urban–rural split.</strong> BN held its DUN seats in rural constituencies (Segamat, Mersing, Tenggara) and these translated into BN-won parliament seats too. But every urban/semi-urban parliamentary seat (JB, Iskandar Puteri, Johor Bahru, Kulai) went to PH in GE15 despite BN winning most of their DUNs in PRN.</div></div>
+      <div class="insight-item"><span class="insight-icon">&#9888;&#65039;</span><div><strong>PN underperformed in both.</strong> PN won only 3 DUN seats in PRN (Bukit Kepong, Endau, Sedili area) and just 2 parliament seats in GE15 (Mersing, Kota Tinggi area). Johor is not PN territory — the BN vs PH contest dominates the state.</div></div>
+      <div class="insight-item"><span class="insight-icon">&#128256;</span><div><strong>MUDA's one DUN seat (Puteri Wangsa)</strong> was a signal of urban youth dissatisfaction. Its underlying parliamentary seat (Tebrau/Pasir Gudang) became PH-friendly in GE15. MUDA's presence in PRN fragmented the anti-BN vote but didn't stop the eventual GE15 PH wave.</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Pakatan Harapan (PH)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div>Barisan Nasional (BN)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Perikatan Nasional (PN)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>MUDA</div>
+    <div class="legend-item" style="margin-left:auto"><span style="font-family:'DM Mono',monospace;font-size:.6rem;color:#60a5fa;border:1px solid #1e3a5f;background:#0f1e35;padding:1px 6px;border-radius:3px">&#8593; FLIP</span> = seat changed hands at GE15 vs PRN</div>
+  </div>
+
+  <!-- P140 SEGAMAT -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P140 · Segamat</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · PKR</span> <strong>R. Yuneswaran</strong> — majority 5,669 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N01</div><div class="dun-name">Buloh Kasap</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Zahari Sarip</span></div><div class="maj-line">Majority: 5,377 (56.96%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">R. Yuneswaran</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div><div class="maj-line">Parliament maj: 5,669</div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N02</div><div class="dun-name">Jementah</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Ng Kor Sim</span></div><div class="maj-line">Majority: 714 (40.92%) — tight</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">R. Yuneswaran</span><span class="flip-badge flip-held">HELD PH</span></div><div class="maj-line">PH retained parliament</div></div>
+    </div>
+  </div>
+
+  <!-- P141 SEKIJANG -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P141 · Sekijang</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Noraini Ahmad</strong> — majority 2,021 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N03</div><div class="dun-name">Pemanis</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Anuar Abdul Manap</span></div><div class="maj-line">Majority: 4,187 (50.33%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Noraini Ahmad</span><span class="flip-badge flip-held">HELD BN</span></div><div class="maj-line">BN retained</div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N04</div><div class="dun-name">Kemelah</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · MIC</span><span class="winner-name">Saraswathy Nallathanby</span></div><div class="maj-line">Majority: 1,611 (41.13%) — narrow</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Noraini Ahmad</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P142 LABIS -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P142 · Labis</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Ramakrishnan Suppiah</strong> — majority ~3,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N05</div><div class="dun-name">Tenang</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Haslinda Salleh</span></div><div class="maj-line">Majority: 1,736 (44.92%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Ramakrishnan Suppiah</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N06</div><div class="dun-name">Bekok</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · MCA</span><span class="winner-name">Tan Chong</span></div><div class="maj-line">Majority: 3,569 (51.30%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Ramakrishnan Suppiah</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P143 PAGOH -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P143 · Pagoh</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-pn">PN · BERSATU</span> <strong>Muhyiddin Yassin</strong> — majority ~9,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH-BERSATU)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N07</div><div class="dun-name">Bukit Kepong</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-pn">PN · BERSATU</span><span class="winner-name">Sahruddin Jamal</span></div><div class="maj-line">Majority: 710 (44.27%) — very tight</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-pn">PN · BERSATU</span><span class="winner-name">Muhyiddin Yassin</span><span class="flip-badge flip-held">HELD PN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N08</div><div class="dun-name">Bukit Pasir</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Mohamad Fazli</span></div><div class="maj-line">Majority: 198 (32.11%) — razor thin</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-pn">PN · BERSATU</span><span class="winner-name">Muhyiddin Yassin</span><span class="flip-badge flip-held">PN held parliament</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N09</div><div class="dun-name">Gambir</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Sahrihan Jani</span></div><div class="maj-line">Majority: 3,146 (45.48%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-pn">PN · BERSATU</span><span class="winner-name">Muhyiddin Yassin</span><span class="flip-badge flip-held">PN held parliament</span></div><div class="maj-line">BN won DUN but PN won parliament</div></div>
+    </div>
+  </div>
+
+  <!-- P144 LEDANG -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P144 · Ledang</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Syed Saddiq</strong> — majority 1,345 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH-BERSATU)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N10</div><div class="dun-name">Tangkak</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Ee Chin Li</span></div><div class="maj-line">Majority: 372 (40.85%) — very tight</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Syed Saddiq</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N11</div><div class="dun-name">Serom</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Khairin Nisa Ismail</span></div><div class="maj-line">Majority: 699 (38.40%) — very tight</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Syed Saddiq</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P145 BAKRI -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P145 · Bakri</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Yeo Bee Yin</strong> — majority ~20,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N12</div><div class="dun-name">Bentayan</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Ng Yak Howe</span></div><div class="maj-line">Majority: 7,476 (64.53%) — strong</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Yeo Bee Yin</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N13</div><div class="dun-name">Simpang Jeram</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Salahuddin Ayub</span></div><div class="maj-line">Majority: 2,399 (40.94%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Yeo Bee Yin</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N14</div><div class="dun-name">Bukit Naning</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Fuad Tukirin</span></div><div class="maj-line">Majority: 1,535 (38.14%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Yeo Bee Yin</span><span class="flip-badge flip-ph">&#8593; FLIP to PH at parl</span></div></div>
+    </div>
+  </div>
+
+  <!-- P146 MUAR -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P146 · Muar</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · AMANAH</span> <strong>Syed Saddiq (contested here) / Cikgu Huda</strong> — majority ~4,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N15</div><div class="dun-name">Maharani</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-pn">PN · PAS</span><span class="winner-name">Abdul Aziz Talib</span></div><div class="maj-line">Majority: 1,037 (35.97%) — tight, PH upset</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Cikgu Huda</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N16</div><div class="dun-name">Sungai Balang</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Selamat Takim</span></div><div class="maj-line">Majority: 2,293 (45.57%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Cikgu Huda</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P147 PARIT SULONG -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P147 · Parit Sulong</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Noraini Ahmad</strong> — majority 2,021 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N17</div><div class="dun-name">Semerah</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Mohd Fared Mohd Khalid</span></div><div class="maj-line">Majority: 4,041 (44.94%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Noraini Ahmad</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N18</div><div class="dun-name">Sri Medan</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Zulkurnain Kamisan</span></div><div class="maj-line">Majority: 6,274 (60.52%) — strong BN</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Noraini Ahmad</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P148 AYER HITAM -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P148 · Ayer Hitam</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Chua Tian Chang (Pua Kiam Wee)</strong> — majority ~5,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N19</div><div class="dun-name">Yong Peng</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · MCA</span><span class="winner-name">Ling Tian Soon</span></div><div class="maj-line">Majority: 2,741 (52.84%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">PH candidate</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N20</div><div class="dun-name">Semarang</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Samsolbari Jamali</span></div><div class="maj-line">Majority: 5,846 (61.93%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">PH candidate</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P149 SRI GADING -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P149 · Sri Gading</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · AMANAH</span> <strong>Aminolhuda Hassan</strong> — majority 4,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N21</div><div class="dun-name">Parit Yaani</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Mohd Najib Samuri</span></div><div class="maj-line">Majority: 294 (38.56%) — razor thin</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Aminolhuda Hassan</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N22</div><div class="dun-name">Parit Raja</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Nor Rashidah Ramli</span></div><div class="maj-line">Majority: 4,219 (49.57%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Aminolhuda Hassan</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P150 BATU PAHAT -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P150 · Batu Pahat</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Gan Peck Cheng</strong> — majority ~12,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N23</div><div class="dun-name">Penggaram</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Gan Peck Cheng</span></div><div class="maj-line">Majority: 9,956 (53.67%) — strong</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Gan Peck Cheng</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N24</div><div class="dun-name">Senggarang</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Mohd Yusla Ismail</span></div><div class="maj-line">Majority: 3,912 (45.11%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Gan Peck Cheng</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N25</div><div class="dun-name">Rengit</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Mohd Puad Zarkashi</span></div><div class="maj-line">Majority: 1,920 (48.92%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Gan Peck Cheng</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P151 SIMPANG RENGGAM -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P151 · Simpang Renggam</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · PKR</span> <strong>Maszlee Malik</strong> — majority ~5,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH-BERSATU)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N26</div><div class="dun-name">Machap</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Onn Hafiz Ghazi</span></div><div class="maj-line">Majority: 6,543 (56.63%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">Maszlee Malik</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N27</div><div class="dun-name">Layang-Layang</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Abd. Mutalip Abd. Rahim</span></div><div class="maj-line">Majority: 2,815 (55.00%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">Maszlee Malik</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P152 KLUANG -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P152 · Kluang</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Chew Chong Sin</strong> — majority ~15,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N28</div><div class="dun-name">Mengkibol</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Chew Chong Sin</span></div><div class="maj-line">Majority: 10,107 (58.90%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Chew Chong Sin</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N29</div><div class="dun-name">Mahkota</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Sharifah Azizah Syed Zain</span></div><div class="maj-line">Majority: 5,166 (45.86%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Chew Chong Sin</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P153 SEMBRONG -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P153 · Sembrong</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Hishammuddin Hussein</strong> — majority ~8,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N30</div><div class="dun-name">Paloh</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · MCA</span><span class="winner-name">Lee Ting Han</span></div><div class="maj-line">Majority: 3,176 (55.05%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Hishammuddin Hussein</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N31</div><div class="dun-name">Kahang</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · MIC</span><span class="winner-name">Vidyananthan Ramanadhan</span></div><div class="maj-line">Majority: 6,698 (62.69%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Hishammuddin Hussein</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P154 MERSING -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P154 · Mersing</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-pn">PN · BERSATU</span> <strong>Aziz Kaprawi</strong> — majority ~3,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N32</div><div class="dun-name">Endau</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-pn">PN · BERSATU</span><span class="winner-name">Alwiyah Talib</span></div><div class="maj-line">Majority: 3,041 (55.48%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-pn">PN · BERSATU</span><span class="winner-name">Aziz Kaprawi</span><span class="flip-badge flip-held">HELD PN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N33</div><div class="dun-name">Tenggaroh</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · MIC</span><span class="winner-name">Raven Kumar Krishnasamy</span></div><div class="maj-line">Majority: 1,356 (49.10%) — tight</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-pn">PN · BERSATU</span><span class="winner-name">Aziz Kaprawi</span><span class="flip-badge flip-pn">&#8593; FLIP to PN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P155 TENGGARA -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P155 · Tenggara</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Azalina Othman Said</strong> — majority 5,010 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N34</div><div class="dun-name">Panti</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Hahasrin Hashim</span></div><div class="maj-line">Majority: 5,854 (57.29%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Azalina Othman Said</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N35</div><div class="dun-name">Pasir Raja</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Rashidah Ismail</span></div><div class="maj-line">Majority: 4,888 (58.22%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Azalina Othman Said</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P156 KOTA TINGGI -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P156 · Kota Tinggi</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Halimah Mohamed Sadique</strong> — majority ~6,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N36</div><div class="dun-name">Sedili</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Muszaidi Makmor</span></div><div class="maj-line">Majority: 5,679 (63.52%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Halimah Mohamed Sadique</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N37</div><div class="dun-name">Johor Lama</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Norlizah Noh</span></div><div class="maj-line">Majority: 6,039 (60.56%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Halimah Mohamed Sadique</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P157 PENGARANG -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P157 · Pengerang</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Azalina Othman Said</strong> — majority 5,010 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N38</div><div class="dun-name">Penawar</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Fauziah Misri</span></div><div class="maj-line">Majority: 7,505 (66.98%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Azalina Othman Said</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N39</div><div class="dun-name">Tanjong Surat</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Aznan Tamin</span></div><div class="maj-line">Majority: 5,903 (66.97%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Azalina Othman Said</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P158 TEBRAU -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P158 · Tebrau</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · PKR</span> <strong>Johari Abdul Ghani</strong> — majority ~8,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N40</div><div class="dun-name">Tiram</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Azizul Bachok</span></div><div class="maj-line">Majority: 5,281 (40.65%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">Johari Abdul Ghani</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N41</div><div class="dun-name">Puteri Wangsa</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-muda">MUDA</span><span class="winner-name">Amira Aisya Abdul Aziz</span></div><div class="maj-line">Majority: 7,114 (43.22%) — MUDA upset</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">Johari Abdul Ghani</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P159 PASIR GUDANG -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P159 · Pasir Gudang</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Hassan Abdul Karim</strong> — majority ~20,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N42</div><div class="dun-name">Johor Jaya</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Liow Cai Tung</span></div><div class="maj-line">Majority: 1,922 (41.73%) — tight</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Hassan Abdul Karim</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N43</div><div class="dun-name">Permas</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Baharudin Mohd Taib</span></div><div class="maj-line">Majority: 7,926 (41.93%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Hassan Abdul Karim</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P160 JOHOR BAHRU -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P160 · Johor Bahru</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · PKR</span> <strong>Akmal Nasrullah</strong> — majority ~8,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N44</div><div class="dun-name">Larkin</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Mohd Hairi Mad Shah</span></div><div class="maj-line">Majority: 6,178 (41.77%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">Akmal Nasrullah</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N45</div><div class="dun-name">Stulang</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Andrew Chen Kah Eng</span></div><div class="maj-line">Majority: 2,866 (44.84%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">Akmal Nasrullah</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P161 PULAI -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P161 · Pulai</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · AMANAH</span> <strong>Salahuddin Ayub</strong> — majority 33,174 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N46</div><div class="dun-name">Perling</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Liew Chin Tong</span></div><div class="maj-line">Majority: 3,347 (43.58%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Salahuddin Ayub</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N47</div><div class="dun-name">Kempas</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Ramlee Bohani</span></div><div class="maj-line">Majority: 3,514 (38.92%) — VAC seat</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Salahuddin Ayub</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P162 ISKANDAR PUTERI -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P162 · Iskandar Puteri</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Liew Chin Tong</strong> — majority 60,036 (largest in Johor) &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N48</div><div class="dun-name">Skudai</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Marina Ibrahim</span></div><div class="maj-line">Majority: 13,943 (58.53%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Liew Chin Tong</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N49</div><div class="dun-name">Kota Iskandar</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Pandak Ahmad</span></div><div class="maj-line">Majority: 4,360 (40.78%)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Liew Chin Tong</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P163 KULAI -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P163 · Kulai</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-ph">PH · DAP</span> <strong>Teo Nie Ching</strong> — majority ~25,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: PH)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N50</div><div class="dun-name">Bukit Permai</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Mohd Jafni Md Shukor</span></div><div class="maj-line">Majority: 4,755 (48.36%)</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Teo Nie Ching</span><span class="flip-badge flip-ph">&#8593; FLIP to PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N51</div><div class="dun-name">Bukit Batu</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · PKR</span><span class="winner-name">Jimmy Puah Wee Tse</span></div><div class="maj-line">Majority (narrow, PKR win)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Teo Nie Ching</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N52</div><div class="dun-name">Senai</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Alan Tee Boon Tsong</span></div><div class="maj-line">Strong PH DAP hold</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Teo Nie Ching</span><span class="flip-badge flip-held">HELD PH</span></div></div>
+    </div>
+  </div>
+
+  <!-- P164 PONTIAN -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P164 · Pontian</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Ahmad Maslan</strong> — majority ~10,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N53</div><div class="dun-name">Benut</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Hasni Mohammad (MB Johor)</span></div><div class="maj-line">Strong BN hold — incumbent MB</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Ahmad Maslan</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N54</div><div class="dun-name">Pulai Sebatang</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-ph">PH · AMANAH</span><span class="winner-name">Muhammad Taqiuddin Cheman</span></div><div class="maj-line">PH hold (rural)</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Ahmad Maslan</span><span class="flip-badge flip-bn">&#8593; FLIP to BN</span></div></div>
+    </div>
+  </div>
+
+  <!-- P165 TANJUNG PIAI -->
+  <div class="parl-section">
+    <div class="parl-header">
+      <div><div class="parl-name">P165 · Tanjung Piai</div><div class="parl-sub">GE15 winner:</div></div>
+      <div class="parl-ge15"><span class="badge badge-bn">BN · UMNO</span> <strong>Wee Jeck Seng</strong> — majority ~2,000 &nbsp;<span style="color:#5a6070;font-size:.65rem">(GE14: BN by-election win)</span></div>
+      <div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N55</div><div class="dun-name">Pekan Nanas</div></div>
+      <div class="cell"><div class="col-header">PRN Johor 2022</div><div class="winner-line"><span class="badge badge-ph">PH · DAP</span><span class="winner-name">Yeo Tung Siong</span></div><div class="maj-line">PH DAP hold</div></div>
+      <div class="cell"><div class="col-header">GE15 Parliament</div><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Wee Jeck Seng</span><span class="flip-badge flip-bn">&#8593; FLIP to BN</span></div></div>
+    </div>
+    <div class="dun-row">
+      <div><div class="dun-no">N56</div><div class="dun-name">Kukup</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Jefridin Atan</span></div><div class="maj-line">BN UMNO hold</div></div>
+      <div class="cell"><div class="winner-line"><span class="badge badge-bn">BN · UMNO</span><span class="winner-name">Wee Jeck Seng</span><span class="flip-badge flip-held">HELD BN</span></div></div>
+    </div>
+  </div>
+
+  <div style="height:40px"></div>
+</div>
+
+<!-- VISUALISATIONS -->
+<div class="viz-section">
+  <div class="viz-title">Visualisations — Seat Counts, Flips & Swings</div>
+
+  <div class="charts-grid-3">
+    <div class="chart-box">
+      <div class="chart-label">DUN Seats Won — PRN Johor Mar 2022</div>
+      <canvas id="prnDoughnut" class="chart-canvas"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="chart-label">Parliament Seats Won — GE15 Nov 2022</div>
+      <canvas id="ge15Doughnut" class="chart-canvas"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="chart-label">GE15 Parliament Seat Flips</div>
+      <canvas id="flipsBar" class="chart-canvas"></canvas>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="chart-box">
+      <div class="chart-label">Voter Turnout — PRN vs GE15</div>
+      <div style="margin-top:10px">
+        <div class="turnout-bar-wrap">
+          <div class="turnout-label">PRN Johor<br><span style="font-size:.65rem;color:var(--muted)">Mar 2022</span></div>
+          <div class="turnout-bg"><div class="turnout-fill" style="width:54.92%;background:linear-gradient(90deg,#ef4444,#dc2626)"><span class='t-label'>54.92% · 1.43M</span></div></div>
+          <div class="turnout-pct">54.9%</div>
+        </div>
+        <div class="turnout-bar-wrap">
+          <div class="turnout-label">GE15 Johor<br><span style="font-size:.65rem;color:var(--muted)">Nov 2022</span></div>
+          <div class="turnout-bg"><div class="turnout-fill" style="width:72.66%;background:linear-gradient(90deg,#3b82f6,#2563eb)"><span class='t-label'>72.66% · 1.88M</span></div></div>
+          <div class="turnout-pct">72.7%</div>
+        </div>
+        <div class="turnout-bar-wrap">
+          <div class="turnout-label">GE14 Johor<br><span style="font-size:.65rem;color:var(--muted)">May 2018</span></div>
+          <div class="turnout-bg"><div class="turnout-fill" style="width:74.5%;background:linear-gradient(90deg,#6b7280,#4b5563)"><span class='t-label'>74.5% · 1.33M</span></div></div>
+          <div class="turnout-pct">74.5%</div>
+        </div>
+        <div style="margin-top:20px;font-size:.72rem;color:var(--muted);line-height:1.7;border-left:2px solid var(--border);padding-left:12px">
+          The 17.7% turnout gap between PRN and GE15 translates to ~<strong style="color:#eef0f5">450,000 extra voters</strong> at GE15 — mostly urban PH supporters who stayed home in March.<br><br>
+          This single factor explains most of the apparent "reversal" between the two elections.
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-label">Vote Share Comparison — BN vs PH vs PN</div>
+      <canvas id="voteShareBar" class="chart-canvas"></canvas>
+    </div>
+  </div>
+
+  <div class="chart-box wide" style="margin-bottom:16px">
+    <div class="chart-label">All 26 Parliament Seats — PRN DUN Lean vs GE15 Outcome</div>
+    <div class="swing-table-wrap"><table class="swing-table">
+      <thead>
+        <tr>
+          <th>Parliament</th>
+          <th>PRN DUN Lean</th>
+          <th>GE15 Winner</th>
+          <th>Result</th>
+          <th>Notable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>P140 Segamat</td><td>BN (1 DUN BN, 1 DUN PH)</td><td><span style="color:#3b82f6">PH – R.Yuneswaran</span></td><td><span class="flip-ph-tag">&#8593; FLIP to PH</span></td><td>PH majority 5,669</td></tr>
+        <tr><td>P141 Sekijang</td><td>BN (2 DUN BN)</td><td><span style="color:#ef4444">BN – Noraini Ahmad</span></td><td><span class="held-tag">HELD BN</span></td><td>Majority only 2,021</td></tr>
+        <tr><td>P142 Labis</td><td>BN (2 DUN BN)</td><td><span style="color:#3b82f6">PH – Ramakrishnan</span></td><td><span class="flip-ph-tag">&#8593; FLIP to PH</span></td><td>Both DUNs were BN in PRN</td></tr>
+        <tr><td>P143 Pagoh</td><td>Mixed (1 PN, 2 BN)</td><td><span style="color:#10b981">PN – Muhyiddin Yassin</span></td><td><span class="held-tag">HELD PN</span></td><td>Muhyiddin's stronghold, ~9K maj</td></tr>
+        <tr><td>P144 Ledang</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Syed Saddiq</span></td><td><span class="held-tag">HELD PH</span></td><td>Syed Saddiq won with only 1,345 maj</td></tr>
+        <tr><td>P145 Bakri</td><td>Mixed (2 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Yeo Bee Yin</span></td><td><span class="held-tag">HELD PH</span></td><td>Strong PH hold ~20K maj</td></tr>
+        <tr><td>P146 Muar</td><td>Mixed (1 PN, 1 BN)</td><td><span style="color:#3b82f6">PH – Cikgu Huda</span></td><td><span class="flip-ph-tag">&#8593; FLIP to PH</span></td><td>PN won DUN Maharani in PRN</td></tr>
+        <tr><td>P147 Parit Sulong</td><td>BN (2 DUN BN)</td><td><span style="color:#ef4444">BN – Noraini Ahmad</span></td><td><span class="held-tag">HELD BN</span></td><td>Rural BN stronghold</td></tr>
+        <tr><td>P148 Ayer Hitam</td><td>BN (2 DUN BN)</td><td><span style="color:#3b82f6">PH – DAP candidate</span></td><td><span class="flip-ph-tag">&#8593; FLIP to PH</span></td><td>Both DUNs BN in PRN yet PH won parl</td></tr>
+        <tr><td>P149 Sri Gading</td><td>BN (2 DUN BN)</td><td><span style="color:#3b82f6">PH – Aminolhuda</span></td><td><span class="flip-ph-tag">&#8593; FLIP to PH</span></td><td>Parit Yaani won by BN with only 294 majority</td></tr>
+        <tr><td>P150 Batu Pahat</td><td>Mixed (1 PH, 2 BN)</td><td><span style="color:#3b82f6">PH – Gan Peck Cheng</span></td><td><span class="held-tag">HELD PH</span></td><td>~12K majority</td></tr>
+        <tr><td>P151 Simpang Renggam</td><td>BN (2 DUN BN)</td><td><span style="color:#3b82f6">PH – Maszlee Malik</span></td><td><span class="flip-ph-tag">&#8593; FLIP to PH</span></td><td>Maszlee's PKR comeback</td></tr>
+        <tr><td>P152 Kluang</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Chew Chong Sin</span></td><td><span class="held-tag">HELD PH</span></td><td>~15K majority</td></tr>
+        <tr><td>P153 Sembrong</td><td>BN (2 DUN BN)</td><td><span style="color:#ef4444">BN – Hishammuddin</span></td><td><span class="held-tag">HELD BN</span></td><td>Hishammuddin's seat, ~8K maj</td></tr>
+        <tr><td>P154 Mersing</td><td>Mixed (1 PN, 1 BN)</td><td><span style="color:#10b981">PN – Aziz Kaprawi</span></td><td><span class="held-tag">HELD PN</span></td><td>PN's Endau DUN translated up</td></tr>
+        <tr><td>P155 Tenggara</td><td>BN (2 DUN BN)</td><td><span style="color:#ef4444">BN – Azalina</span></td><td><span class="held-tag">HELD BN</span></td><td>Rural east Johor BN stronghold</td></tr>
+        <tr><td>P156 Kota Tinggi</td><td>BN (2 DUN BN)</td><td><span style="color:#ef4444">BN – Halimah</span></td><td><span class="held-tag">HELD BN</span></td><td>Strong rural BN ~6K maj</td></tr>
+        <tr><td>P157 Pengerang</td><td>BN (2 DUN BN)</td><td><span style="color:#ef4444">BN – Azalina</span></td><td><span class="held-tag">HELD BN</span></td><td>Petronas RAPID area, BN stronghold</td></tr>
+        <tr><td>P158 Tebrau</td><td>Mixed (1 MUDA, 1 BN)</td><td><span style="color:#3b82f6">PH – Johari</span></td><td><span class="flip-ph-tag">&#8593; FLIP to PH</span></td><td>MUDA's Puteri Wangsa win didn't stick for PN</td></tr>
+        <tr><td>P159 Pasir Gudang</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Hassan</span></td><td><span class="held-tag">HELD PH</span></td><td>Industrial urban seat ~20K maj</td></tr>
+        <tr><td>P160 Johor Bahru</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Akmal</span></td><td><span class="held-tag">HELD PH</span></td><td>City centre seat</td></tr>
+        <tr><td>P161 Pulai</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Salahuddin</span></td><td><span class="held-tag">HELD PH</span></td><td>Massive 33,174 majority</td></tr>
+        <tr><td>P162 Iskandar Puteri</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Liew Chin Tong</span></td><td><span class="held-tag">HELD PH</span></td><td>60,036 majority — Johor record</td></tr>
+        <tr><td>P163 Kulai</td><td>Mixed (2 PH, 1 BN)</td><td><span style="color:#3b82f6">PH – Teo Nie Ching</span></td><td><span class="held-tag">HELD PH</span></td><td>~25K majority</td></tr>
+        <tr><td>P164 Pontian</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#ef4444">BN – Ahmad Maslan</span></td><td><span class="flip-bn-tag">&#8593; FLIP to BN</span></td><td>PH DUN (Pulai Sebatang) didn't hold at parl</td></tr>
+        <tr><td>P165 Tanjung Piai</td><td>Mixed (1 PH, 1 BN)</td><td><span style="color:#ef4444">BN – Wee Jeck Seng</span></td><td><span class="flip-bn-tag">&#8593; FLIP to BN</span></td><td>Coastal Malay-heavy, BN hold</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+</div>
+
+<footer class="container site-footer" style="margin-top:24px">
+  <p>Electoral Analysis by Edwin Jesu Dass · <a href="index.html" style="color:var(--muted);text-decoration:none;">edwinjd.com</a></p>
+</footer>
+
+<script>
+Chart.defaults.color = '#5a6070';
+Chart.defaults.font.family = "'DM Sans', sans-serif";
+const gridColor = '#1e2330';
+
+new Chart(document.getElementById('prnDoughnut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['BN (40)', 'PH (12)', 'PN (3)', 'MUDA (1)'],
+    datasets: [{ data: [40, 12, 3, 1],
+      backgroundColor: ['#1a0808','#0a1525','#0a1a12','#2a1e08'],
+      borderColor: ['#ef4444','#3b82f6','#10b981','#f59e0b'], borderWidth: 2 }]
+  },
+  options: { responsive:true, maintainAspectRatio:true, cutout:'60%',
+    plugins: { legend: { position:'bottom', labels:{ padding:12, font:{size:11} } } } }
+});
+
+new Chart(document.getElementById('ge15Doughnut'), {
+  type: 'doughnut',
+  data: {
+    labels: ['PH (15)', 'BN (9)', 'PN (2)'],
+    datasets: [{ data: [15, 9, 2],
+      backgroundColor: ['#0a1525','#1a0808','#0a1a12'],
+      borderColor: ['#3b82f6','#ef4444','#10b981'], borderWidth: 2 }]
+  },
+  options: { responsive:true, maintainAspectRatio:true, cutout:'60%',
+    plugins: { legend: { position:'bottom', labels:{ padding:12, font:{size:11} } } } }
+});
+
+new Chart(document.getElementById('flipsBar'), {
+  type: 'bar',
+  data: {
+    labels: ['&#8593; Flip to PH', 'HELD PH', 'HELD BN', '&#8593; Flip to BN', 'HELD PN'],
+    datasets: [{
+      data: [10, 5, 7, 2, 2],
+      backgroundColor: ['#0a1525','#0a2835','#1a0808','#3a1515','#0a1a12'],
+      borderColor: ['#3b82f6','#60a5fa','#ef4444','#f87171','#10b981'],
+      borderWidth: 1.5, borderRadius: 6
+    }]
+  },
+  options: { responsive:true, maintainAspectRatio:true,
+    plugins: { legend:{ display:false } },
+    scales: {
+      y: { grid:{ color:gridColor }, ticks:{ font:{size:10} } },
+      x: { grid:{ display:false }, ticks:{ font:{size:10} } }
+    }
+  }
+});
+
+new Chart(document.getElementById('voteShareBar'), {
+  type: 'bar',
+  data: {
+    labels: ['BN', 'PH', 'PN'],
+    datasets: [
+      { label: 'PRN Mar 2022 (DUN %)', data: [43.1, 26.4, 24.5],
+        backgroundColor: '#1a0808', borderColor: '#ef4444', borderWidth: 1.5, borderRadius: 4 },
+      { label: 'GE15 Nov 2022 (Parl %)', data: [34.6, 45.2, 18.1],
+        backgroundColor: '#0a1525', borderColor: '#3b82f6', borderWidth: 1.5, borderRadius: 4 }
+    ]
+  },
+  options: { responsive:true, maintainAspectRatio:true,
+    plugins: { legend: { position:'bottom', labels:{ padding:12, font:{size:11} } } },
+    scales: {
+      y: { grid:{ color:gridColor }, ticks:{ callback: v => v+'%', font:{size:10} }, max:55 },
+      x: { grid:{ display:false }, ticks:{ font:{size:11} } }
+    }
+  }
+});
+</script>
+<script>
+  (function() {
+    const btn = document.querySelector('.hamburger');
+    const nav = document.querySelector('nav');
+    if (!btn || !nav) return;
+    btn.addEventListener('click', function() {
+      const open = nav.classList.toggle('open');
+      btn.classList.toggle('active', open);
+      btn.setAttribute('aria-expanded', open);
+    });
+    nav.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        nav.classList.remove('open');
+        btn.classList.remove('active');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  })();
+</script>
+</body>
+</html>
