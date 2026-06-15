@@ -16,6 +16,7 @@ This site is the personal portfolio and publishing platform of Edwin Jesu Dass. 
 - [The Observatory](https://edwinjd.com/analyses.html) — Gallery of social media sentiment analyses
 - [Rohingya Sentiment Analysis](https://edwinjd.com/rohingya-sentiment.html) — AI-powered classification of 981 Facebook comments with contextual understanding of English, Malay, and code-switched language
 - [Johor PRN 2022 vs GE15](https://edwinjd.com/johor-elections.html) — Seat-by-seat electoral analysis comparing the Johor state election and federal election eight months apart
+- [Malaysia Job Loss 2026](https://edwinjd.com/malaysia-job-loss-2026.html) — Dashboard, infographic, and policy brief on Malaysia's 2026 retrenchment surge and labour-market safety-net gaps
 - [Swarm Governance Framework](https://edwinjd.com/swarm-governance.html) — DBA research proposal on AI-enabled swarm governance via Design Science Research
 
 ## Person
