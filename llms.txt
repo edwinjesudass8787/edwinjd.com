@@ -9,10 +9,12 @@ This site is the personal portfolio and publishing platform of Edwin Jesu Dass. 
 - A professional portfolio covering social science analysis, digital practice, public-policy research, data visualisation, and writing
 - Auto-updating Medium article feeds
 - The Observatory — a collection of social media sentiment analyses mapping discourse, sarcasm, and bilingual code-switching in Malaysian online comment sections
+- Publications — books, ebooks, and long-form work by Edwin Jesu Dass
 
 ## Key Pages
 
 - [Home / Portfolio](https://edwinjd.com/) — About, selected work, latest Medium articles, contact
+- [Publications](https://edwinjd.com/publications.html) — Books and ebooks by Edwin Jesu Dass, including You Are Not Replaceable
 - [The Observatory](https://edwinjd.com/analyses.html) — Gallery of social media sentiment analyses
 - [Rohingya Sentiment Analysis](https://edwinjd.com/rohingya-sentiment.html) — AI-powered classification of 981 Facebook comments with contextual understanding of English, Malay, and code-switched language
 - [Johor PRN 2022 vs GE15](https://edwinjd.com/johor-elections.html) — Seat-by-seat electoral analysis comparing the Johor state election and federal election eight months apart

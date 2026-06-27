@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://edwinjd.com/publications.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://edwinjd.com/swarm-governance.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
