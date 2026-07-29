@@ -45,7 +45,7 @@
     <script>
 (()=>{try{const t=localStorage.getItem('edwinjd-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
 </script>
-<link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css" />
 
     <script type="application/ld+json">
       {
@@ -77,7 +77,7 @@
       }
     </script>
   </head>
-  <body>
+  <body class="page-home">
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="container header-inner">
@@ -101,26 +101,41 @@
 
     <main id="main">
       <section id="top" class="hero container">
-        <div class="hero-layout">
-          <div class="hero-text reveal">
-            <p class="eyebrow">Social Science Analyst · Malaysia</p>
-            <h1>
-              Edwin Jesu Dass <br />
-              from Malaysia.
-            </h1>
-            <p class="hero-copy">
-              Tech observer and current-events enthusiast exploring the nexus of social science,
-              digital systems, and world affairs. This page updates automatically with my latest
-              Medium writing.
-            </p>
-            <div class="hero-cta">
-              <a class="btn primary" href="#writing">Read Articles</a>
-              <a class="btn ghost" href="analyses.html">The Observatory</a>
+        <div class="hero-shell reveal">
+          <div class="hero-layout">
+            <div class="hero-text">
+              <p class="eyebrow">Social Science Analyst · Malaysia</p>
+              <h1>
+                Edwin Jesu Dass <br />
+                from Malaysia.
+              </h1>
+              <p class="hero-copy">
+                Tech observer and current-events enthusiast exploring the nexus of social science,
+                digital systems, and world affairs. This page updates automatically with my latest
+                Medium writing.
+              </p>
+              <div class="hero-stats">
+                <span class="stat-chip"><strong>5+</strong> published analyses</span>
+                <span class="stat-chip"><strong>Live</strong> Medium feed</span>
+                <span class="stat-chip"><strong>MY</strong> based</span>
+              </div>
+              <div class="hero-cta">
+                <a class="btn primary" href="#writing">Read Articles</a>
+                <a class="btn ghost" href="analyses.html">The Observatory</a>
+              </div>
+            </div>
+            <div class="hero-photo">
+              <div class="hero-photo-frame">
+                <img src="profile.jpeg" alt="Edwin Jesu Dass" />
+              </div>
             </div>
           </div>
-          <div class="hero-photo reveal">
-            <img src="profile.jpeg" alt="Edwin Jesu Dass" />
-          </div>
+          <nav class="jump-nav" aria-label="Jump to section">
+            <a class="jump-pill" href="#about">About</a>
+            <a class="jump-pill" href="#projects">Work</a>
+            <a class="jump-pill" href="#writing">Writing</a>
+            <a class="jump-pill" href="#contact">Contact</a>
+          </nav>
         </div>
       </section>
 
@@ -128,7 +143,7 @@
         <div class="section-head reveal">
           <h2>About</h2>
         </div>
-        <div class="glass reveal">
+        <div class="glass reveal interactive-card">
           <p>
             I’m Edwin Jesu Dass, a Malaysia-based social science analyst and digital
             practitioner who is still learning, building, and improving every day.
@@ -144,52 +159,60 @@
         <div class="section-head reveal">
           <h2>Selected Work</h2>
         </div>
-        <div class="project-grid">
-          <article class="card card-static reveal reveal-delay-1">
-            <h3>Social Science + Digital Practice</h3>
-            <p>
-              Practical work at the intersection of public issues, digital systems,
-              evidence-building, and accessible storytelling.
-            </p>
-          </article>
-          <article class="card card-static reveal reveal-delay-2">
-            <h3>Policy & Data Analysis</h3>
-            <p>
-              Focused on turning complex datasets into clear dashboards, forecasts,
-              and analysis briefs for public understanding.
-            </p>
-          </article>
-          <article class="card card-static reveal reveal-delay-3">
-            <h3>Digital Transformation</h3>
-            <p>
-              Contributions through digital adoption, workflow improvement, and practical
-              frameworks that make information easier to act on.
-            </p>
-          </article>
-          <a class="card card-link reveal reveal-delay-4" href="publications.html">
-            <h3>Publications</h3>
-            <p>
-              Books and ebooks, beginning with <em>You Are Not Replaceable</em>,
-              published as a direct digital release.
-            </p>
-            <span class="card-cta">View publications →</span>
-          </a>
-          <a class="card card-link reveal reveal-delay-5" href="analyses.html">
-            <h3>The Observatory</h3>
-            <p>
-              A growing collection of social media sentiment analyses — mapping discourse,
-              sarcasm, and bilingual code-switching in Malaysian online comment sections.
-            </p>
-            <span class="card-cta">Explore analyses →</span>
-          </a>
-          <a class="card card-link reveal reveal-delay-6" href="swarm-governance.html">
-            <h3>Swarm Governance Framework</h3>
-            <p>
-              DBA research proposal on AI-enabled swarm governance — a Design Science
-              framework for decentralised coordination in complex organisations.
-            </p>
-            <span class="card-cta">Open research →</span>
-          </a>
+        <div class="scroll-track" data-scroll-track>
+          <div class="scroll-track-inner project-grid">
+            <article class="card card-static interactive-card reveal reveal-delay-1">
+              <span class="card-icon">01</span>
+              <h3>Social Science + Digital Practice</h3>
+              <p>
+                Practical work at the intersection of public issues, digital systems,
+                evidence-building, and accessible storytelling.
+              </p>
+            </article>
+            <article class="card card-static interactive-card reveal reveal-delay-2">
+              <span class="card-icon">02</span>
+              <h3>Policy & Data Analysis</h3>
+              <p>
+                Focused on turning complex datasets into clear dashboards, forecasts,
+                and analysis briefs for public understanding.
+              </p>
+            </article>
+            <article class="card card-static interactive-card reveal reveal-delay-3">
+              <span class="card-icon">03</span>
+              <h3>Digital Transformation</h3>
+              <p>
+                Contributions through digital adoption, workflow improvement, and practical
+                frameworks that make information easier to act on.
+              </p>
+            </article>
+            <a class="card card-link interactive-card reveal reveal-delay-4" href="publications.html">
+              <span class="card-tag">Featured</span>
+              <h3>Publications</h3>
+              <p>
+                Books and ebooks, beginning with <em>You Are Not Replaceable</em>,
+                published as a direct digital release.
+              </p>
+              <span class="card-cta">View publications →</span>
+            </a>
+            <a class="card card-link interactive-card reveal reveal-delay-5" href="analyses.html">
+              <span class="card-tag">Featured</span>
+              <h3>The Observatory</h3>
+              <p>
+                A growing collection of social media sentiment analyses — mapping discourse,
+                sarcasm, and bilingual code-switching in Malaysian online comment sections.
+              </p>
+              <span class="card-cta">Explore analyses →</span>
+            </a>
+            <a class="card card-link interactive-card reveal reveal-delay-6" href="swarm-governance.html">
+              <span class="card-tag">Research</span>
+              <h3>Swarm Governance Framework</h3>
+              <p>
+                DBA research proposal on AI-enabled swarm governance — a Design Science
+                framework for decentralised coordination in complex organisations.
+              </p>
+              <span class="card-cta">Open research →</span>
+            </a>
+          </div>
         </div>
       </section>
 
@@ -198,8 +221,10 @@
           <h2>Latest Medium Articles</h2>
           <a class="sub-link" href="https://medium.com/@im_50316" target="_blank" rel="noopener noreferrer">View all ↗</a>
         </div>
-        <div id="posts" class="post-grid" aria-live="polite">
-          <div class="card loading">Loading latest posts…</div>
+        <div class="scroll-track" data-scroll-track>
+          <div id="posts" class="scroll-track-inner post-grid" aria-live="polite">
+            <div class="card loading">Loading latest posts…</div>
+          </div>
         </div>
       </section>
 
@@ -207,7 +232,7 @@
         <div class="section-head reveal">
           <h2>Contact</h2>
         </div>
-        <div class="glass contact-row reveal">
+        <div class="glass contact-row reveal interactive-card">
           <p>Open to collaborations, speaking opportunities, and thoughtful conversations.</p>
           <div class="contact-links">
             <a class="btn ghost" href="https://medium.com/@im_50316" target="_blank" rel="noopener noreferrer">Medium</a>
@@ -223,24 +248,6 @@
 
     <script src="script.js"></script>
     <script src="theme.js"></script>
-    <script>
-      (function() {
-        const btn = document.querySelector('.hamburger');
-        const nav = document.getElementById('site-nav') || document.querySelector('nav');
-        if (!btn || !nav) return;
-        btn.addEventListener('click', function() {
-          const open = nav.classList.toggle('open');
-          btn.classList.toggle('active', open);
-          btn.setAttribute('aria-expanded', open);
-        });
-        nav.querySelectorAll('a').forEach(function(link) {
-          link.addEventListener('click', function() {
-            nav.classList.remove('open');
-            btn.classList.remove('active');
-            btn.setAttribute('aria-expanded', 'false');
-          });
-        });
-      })();
-    </script>
-</body>
+    <script src="site.js"></script>
+  </body>
 </html>

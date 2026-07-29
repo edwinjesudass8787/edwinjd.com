@@ -34,10 +34,10 @@ function postTemplate(post) {
   const safeTitle = post.title || "Untitled";
 
   return `
-    <article class="card post-card reveal">
+    <article class="card post-card interactive-card reveal">
       ${
         image
-          ? `<img src="${image}" alt="${safeTitle}" style="width:100%;height:170px;object-fit:cover;border-radius:12px;margin-bottom:0.9rem;" loading="lazy" />`
+          ? `<img class="post-thumb" src="${image}" alt="${safeTitle}" loading="lazy" />`
           : ""
       }
       <a href="${post.link}" target="_blank" rel="noopener noreferrer">
@@ -122,6 +122,9 @@ async function loadPosts() {
 
     postsContainer.innerHTML = topPosts.map(postTemplate).join("");
     initReveal();
+    if (window.EdwinSite && typeof window.dispatchEvent === "function") {
+      window.dispatchEvent(new CustomEvent("posts-loaded"));
+    }
   } catch (error) {
     postsContainer.innerHTML = `
       <div class="card loading">

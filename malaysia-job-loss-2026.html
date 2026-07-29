@@ -118,5 +118,6 @@ new Chart(document.getElementById('yoyChart'),{type:'bar',data:{labels:['January
 (function(){const btn=document.querySelector('.hamburger');const nav=document.querySelector('.site-header nav');if(!btn||!nav)return;btn.addEventListener('click',function(){const open=nav.classList.toggle('open');btn.classList.toggle('active',open);btn.setAttribute('aria-expanded',open)});nav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){nav.classList.remove('open');btn.classList.remove('active');btn.setAttribute('aria-expanded','false')})})})();
 </script>
 <script src="theme.js"></script>
+<script src="site.js"></script>
 </body>
 </html>

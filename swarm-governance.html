@@ -602,7 +602,7 @@
   .slide-inner.center { align-items: center; }
 </style>
 </head>
-<body>
+<body class="page-deck" class="page-deck">
 
 <header class="site-header">
   <div class="container header-inner">
@@ -1362,25 +1362,7 @@ document.addEventListener('touchend',   e => {
 
 updateUI();
 </script>
-<script>
-  (function() {
-    const btn = document.querySelector('.hamburger');
-    const nav = document.querySelector('nav');
-    if (!btn || !nav) return;
-    btn.addEventListener('click', function() {
-      const open = nav.classList.toggle('open');
-      btn.classList.toggle('active', open);
-      btn.setAttribute('aria-expanded', open);
-    });
-    nav.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function() {
-        nav.classList.remove('open');
-        btn.classList.remove('active');
-        btn.setAttribute('aria-expanded', 'false');
-      });
-    });
-  })();
-</script>
 <script src="theme.js"></script>
+<script src="site.js"></script>
 </body>
 </html>
