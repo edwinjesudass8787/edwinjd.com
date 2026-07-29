@@ -21,6 +21,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script>
+(()=>{try{const t=localStorage.getItem('edwinjd-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
 <link rel="stylesheet" href="styles.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -99,5 +102,6 @@ new Chart(document.getElementById('hostCostChart'),{type:'bar',data:{labels:['20
 new Chart(document.getElementById('inflationChart'),{type:'line',data:{labels:['2010','2014','2018','2022','2026'],datasets:[{label:'Final Cat-1 Ticket Price',data:[100,110,122,179,1221],borderColor:RED,backgroundColor:'rgba(224,82,82,.08)',pointBackgroundColor:RED,pointRadius:5,tension:.3,fill:true},{label:'Global CPI Inflation',data:[100,108,116,128,158],borderColor:GOLD,backgroundColor:'rgba(196,150,58,.06)',pointBackgroundColor:GOLD,pointRadius:5,tension:.3,fill:true}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{padding:12,font:{size:10}}}},scales:{y:{type:'logarithmic',grid:{color:GRID},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}});
 (function(){const btn=document.querySelector('.hamburger');const nav=document.querySelector('.site-header nav');if(!btn||!nav)return;btn.addEventListener('click',function(){const open=nav.classList.toggle('open');btn.classList.toggle('active',open);btn.setAttribute('aria-expanded',open)});nav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){nav.classList.remove('open');btn.classList.remove('active');btn.setAttribute('aria-expanded','false')})})})();
 </script>
+<script src="theme.js"></script>
 </body>
 </html>

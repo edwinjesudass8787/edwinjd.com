@@ -26,6 +26,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
+<script>
+(()=>{try{const t=localStorage.getItem('edwinjd-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
 <link rel="stylesheet" href="styles.css" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -946,5 +949,6 @@ new Chart(document.getElementById('voteShareBar'), {
     });
   })();
 </script>
+<script src="theme.js"></script>
 </body>
 </html>

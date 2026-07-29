@@ -21,6 +21,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script>
+(()=>{try{const t=localStorage.getItem('edwinjd-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+</script>
 <link rel="stylesheet" href="styles.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -47,5 +50,6 @@ new Chart(document.getElementById('visitSplitChart'),{type:'doughnut',data:{labe
 new Chart(document.getElementById('perFrontlinerChart'),{type:'bar',data:{labels:['Current\n(RM1 baseline)','New System\n(100% allocated)','New System\n(50% allocated)','New System\n(25% allocated)'],datasets:[{label:'Per-Frontliner Annual Allocation (RM)',data:[524,8402,4201,2101],backgroundColor:[DIM,GOLD,'#0f2419','#101b2a'],borderColor:['#374151',GOLD,GREEN,BLUE],borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' RM'+ctx.raw.toLocaleString()}}},scales:{y:{grid:{color:GRID},ticks:{font:{size:10},callback:v=>'RM'+v.toLocaleString()}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
 (function(){const btn=document.querySelector('.hamburger');const nav=document.querySelector('.site-header nav');if(!btn||!nav)return;btn.addEventListener('click',function(){const open=nav.classList.toggle('open');btn.classList.toggle('active',open);btn.setAttribute('aria-expanded',open)});nav.querySelectorAll('a').forEach(function(link){link.addEventListener('click',function(){nav.classList.remove('open');btn.classList.remove('active');btn.setAttribute('aria-expanded','false')})})})();
 </script>
+<script src="theme.js"></script>
 </body>
 </html>
