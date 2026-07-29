@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -75,10 +75,11 @@
     </script>
   </head>
   <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="#top">Edwin Jesu Dass</a>
-        <nav>
+        <nav id="site-nav">
           <a href="#about">About</a>
           <a href="#projects">Projects</a>
           <a href="swarm-governance.html">Research</a>
@@ -87,7 +88,7 @@
           <a href="#writing">Writing</a>
           <a href="#contact">Contact</a>
         </nav>
-        <button class="hamburger" aria-label="Menu" aria-expanded="false">
+        <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">
           <span></span>
           <span></span>
           <span></span>
@@ -95,11 +96,11 @@
       </div>
     </header>
 
-    <main id="top">
-      <section class="hero container">
+    <main id="main">
+      <section id="top" class="hero container">
         <div class="hero-layout">
-          <div class="hero-text">
-            <p class="eyebrow">Personal Portfolio</p>
+          <div class="hero-text reveal">
+            <p class="eyebrow">Social Science Analyst · Malaysia</p>
             <h1>
               Edwin Jesu Dass <br />
               from Malaysia.
@@ -111,22 +112,20 @@
             </p>
             <div class="hero-cta">
               <a class="btn primary" href="#writing">Read Articles</a>
-              <a class="btn ghost" href="publications.html">Publications</a>
-              <a class="btn ghost" href="https://medium.com/@im_50316" target="_blank" rel="noreferrer">Visit Medium</a>
-              <a class="btn ghost" href="https://my.linkedin.com/in/edwin-jesu-dass-1754b8a6" target="_blank" rel="noreferrer">LinkedIn</a>
+              <a class="btn ghost" href="analyses.html">The Observatory</a>
             </div>
           </div>
-          <div class="hero-photo">
+          <div class="hero-photo reveal">
             <img src="profile.jpeg" alt="Edwin Jesu Dass" />
           </div>
         </div>
       </section>
 
       <section id="about" class="container section">
-        <div class="section-head">
+        <div class="section-head reveal">
           <h2>About</h2>
         </div>
-        <div class="glass">
+        <div class="glass reveal">
           <p>
             I’m Edwin Jesu Dass, a Malaysia-based social science analyst and digital
             practitioner who is still learning, building, and improving every day.
@@ -139,59 +138,62 @@
       </section>
 
       <section id="projects" class="container section">
-        <div class="section-head">
+        <div class="section-head reveal">
           <h2>Selected Work</h2>
         </div>
         <div class="project-grid">
-          <article class="card">
+          <article class="card card-static reveal reveal-delay-1">
             <h3>Social Science + Digital Practice</h3>
             <p>
               Practical work at the intersection of public issues, digital systems,
               evidence-building, and accessible storytelling.
             </p>
           </article>
-          <article class="card">
+          <article class="card card-static reveal reveal-delay-2">
             <h3>Policy & Data Analysis</h3>
             <p>
               Focused on turning complex datasets into clear dashboards, forecasts,
               and analysis briefs for public understanding.
             </p>
           </article>
-          <article class="card">
+          <article class="card card-static reveal reveal-delay-3">
             <h3>Digital Transformation</h3>
             <p>
               Contributions through digital adoption, workflow improvement, and practical
               frameworks that make information easier to act on.
             </p>
           </article>
-          <article class="card">
-            <h3><a href="publications.html" style="text-decoration:none;color:inherit;">Publications</a></h3>
+          <a class="card card-link reveal reveal-delay-4" href="publications.html">
+            <h3>Publications</h3>
             <p>
               Books and ebooks, beginning with <em>You Are Not Replaceable</em>,
               published as a direct digital release.
             </p>
-          </article>
-          <article class="card">
-            <h3><a href="analyses.html" style="text-decoration:none;color:inherit;">The Observatory</a></h3>
+            <span class="card-cta">View publications →</span>
+          </a>
+          <a class="card card-link reveal reveal-delay-5" href="analyses.html">
+            <h3>The Observatory</h3>
             <p>
               A growing collection of social media sentiment analyses — mapping discourse,
               sarcasm, and bilingual code-switching in Malaysian online comment sections.
             </p>
-          </article>
-          <article class="card">
-            <h3><a href="swarm-governance.html" style="text-decoration:none;color:inherit;">Swarm Governance Framework</a></h3>
+            <span class="card-cta">Explore analyses →</span>
+          </a>
+          <a class="card card-link reveal reveal-delay-6" href="swarm-governance.html">
+            <h3>Swarm Governance Framework</h3>
             <p>
               DBA research proposal on AI-enabled swarm governance — a Design Science
               framework for decentralised coordination in complex organisations.
             </p>
-          </article>
+            <span class="card-cta">Open research →</span>
+          </a>
         </div>
       </section>
 
       <section id="writing" class="container section">
-        <div class="section-head row">
+        <div class="section-head row reveal">
           <h2>Latest Medium Articles</h2>
-          <a class="sub-link" href="https://medium.com/@im_50316" target="_blank" rel="noreferrer">View all ↗</a>
+          <a class="sub-link" href="https://medium.com/@im_50316" target="_blank" rel="noopener noreferrer">View all ↗</a>
         </div>
         <div id="posts" class="post-grid" aria-live="polite">
           <div class="card loading">Loading latest posts…</div>
@@ -199,14 +201,14 @@
       </section>
 
       <section id="contact" class="container section">
-        <div class="section-head">
+        <div class="section-head reveal">
           <h2>Contact</h2>
         </div>
-        <div class="glass contact-row">
+        <div class="glass contact-row reveal">
           <p>Open to collaborations, speaking opportunities, and thoughtful conversations.</p>
           <div class="contact-links">
-            <a class="btn ghost" href="https://medium.com/@im_50316" target="_blank" rel="noreferrer">Medium</a>
-            <a class="btn ghost" href="https://my.linkedin.com/in/edwin-jesu-dass-1754b8a6" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a class="btn ghost" href="https://medium.com/@im_50316" target="_blank" rel="noopener noreferrer">Medium</a>
+            <a class="btn ghost" href="https://my.linkedin.com/in/edwin-jesu-dass-1754b8a6" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           </div>
         </div>
       </section>
@@ -220,7 +222,7 @@
     <script>
       (function() {
         const btn = document.querySelector('.hamburger');
-        const nav = document.querySelector('nav');
+        const nav = document.getElementById('site-nav') || document.querySelector('nav');
         if (!btn || !nav) return;
         btn.addEventListener('click', function() {
           const open = nav.classList.toggle('open');

@@ -3,7 +3,9 @@ const FEED_URL = `https://medium.com/feed/${MEDIUM_USERNAME}`;
 
 const postsContainer = document.getElementById("posts");
 const yearEl = document.getElementById("year");
-yearEl.textContent = new Date().getFullYear();
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
 
 const endpoints = [
   `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(FEED_URL)}`,
@@ -32,13 +34,13 @@ function postTemplate(post) {
   const safeTitle = post.title || "Untitled";
 
   return `
-    <article class="card post-card">
+    <article class="card post-card reveal">
       ${
         image
           ? `<img src="${image}" alt="${safeTitle}" style="width:100%;height:170px;object-fit:cover;border-radius:12px;margin-bottom:0.9rem;" loading="lazy" />`
           : ""
       }
-      <a href="${post.link}" target="_blank" rel="noreferrer">
+      <a href="${post.link}" target="_blank" rel="noopener noreferrer">
         <h3>${safeTitle}</h3>
       </a>
       <p>${(post.description || "")
@@ -80,7 +82,35 @@ async function fetchWithFallback() {
   throw new Error("Unable to load feed");
 }
 
+function initReveal() {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const elements = document.querySelectorAll(".reveal");
+
+  if (!elements.length) return;
+
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    elements.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
+  );
+
+  elements.forEach((el) => observer.observe(el));
+}
+
 async function loadPosts() {
+  if (!postsContainer) return;
+
   try {
     const posts = await fetchWithFallback();
     const topPosts = posts.slice(0, 6);
@@ -91,14 +121,16 @@ async function loadPosts() {
     }
 
     postsContainer.innerHTML = topPosts.map(postTemplate).join("");
+    initReveal();
   } catch (error) {
     postsContainer.innerHTML = `
       <div class="card loading">
         Couldn't load Medium posts right now. <br />
-        <a class="sub-link" href="https://medium.com/${MEDIUM_USERNAME}" target="_blank" rel="noreferrer">Open Medium profile</a>
+        <a class="sub-link" href="https://medium.com/${MEDIUM_USERNAME}" target="_blank" rel="noopener noreferrer">Open Medium profile</a>
       </div>
     `;
   }
 }
 
+initReveal();
 loadPosts();
