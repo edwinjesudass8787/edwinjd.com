@@ -20,7 +20,7 @@
 <link rel="canonical" href="https://edwinjd.com/wc-ticket-prices.html" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="styles.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -38,22 +38,24 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="index.html">Edwin Jesu Dass</a>
-    <nav>
+    <nav id="site-nav">
       <a href="index.html#about">About</a>
       <a href="index.html#projects">Projects</a>
       <a href="swarm-governance.html">Research</a>
-      <a href="analyses.html">Analyses</a>
+      <a href="analyses.html" aria-current="page">Analyses</a>
       <a href="publications.html">Publications</a>
       <a href="index.html#writing">Writing</a>
       <a href="index.html#contact">Contact</a>
     </nav>
-    <button class="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="hamburger" aria-label="Menu" aria-expanded="false" aria-controls="site-nav"><span></span><span></span><span></span></button>
   </div>
 </header>
 <div class="backbar"><a href="analyses.html">&#8592; Back to Analyses</a></div>
+<main id="main">
 <div class="analysis-header">
   <div class="header-label">Sports Economics Analysis · FIFA World Cup · 2010-2026</div>
   <h1>The Price of the Beautiful Game —<br>5 World Cups of Ticket Inflation</h1>
@@ -75,7 +77,7 @@
   <div class="ig-stats"><div class="ig-stat"><div class="ig-stat-num" style="color:var(--red)">+1,121%</div><div class="ig-stat-lbl">final ticket price rise<br>2010-2026</div></div><div class="ig-stat"><div class="ig-stat-num" style="color:var(--amber)">46x</div><div class="ig-stat-lbl">gap between cheapest<br>and priciest ticket</div></div><div class="ig-stat"><div class="ig-stat-num" style="color:var(--blue)">$13B</div><div class="ig-stat-lbl">projected FIFA revenue<br>2023-2026 cycle</div></div><div class="ig-stat"><div class="ig-stat-num" style="color:var(--green)">~60%</div><div class="ig-stat-lbl">global CPI inflation<br>2010-2026</div></div><div class="ig-stat"><div class="ig-stat-num">$33K</div><div class="ig-stat-lbl">estimated resale price<br>for 2026 final</div></div><div class="ig-stat"><div class="ig-stat-num">3.97B</div><div class="ig-stat-lbl">FIFA cash reserves<br>by end-2022</div></div></div>
   <div class="chart-box"><div class="chart-title">Final Match Cat-1 Ticket — Nominal USD</div><div class="bars"><div class="bar-col"><div class="bar" style="height:8%"><span class="bar-num">$900</span></div><div class="bar-lbl">2010 RSA</div></div><div class="bar-col"><div class="bar" style="height:9%"><span class="bar-num">$990</span></div><div class="bar-lbl">2014 BRA</div></div><div class="bar-col"><div class="bar" style="height:10%"><span class="bar-num">$1,100</span></div><div class="bar-lbl">2018 RUS</div></div><div class="bar-col"><div class="bar" style="height:15%"><span class="bar-num">$1,607</span></div><div class="bar-lbl">2022 QAT</div></div><div class="bar-col"><div class="bar gold" style="height:100%"><span class="bar-num">$10,990</span></div><div class="bar-lbl">2026 N.AM</div></div></div><p style="font-size:.68rem;color:var(--muted);font-style:italic">2026 marks FIFA's first World Cup with dynamic demand-based pricing at this scale.</p></div>
   <div class="section-label">Three Non-Obvious Indicators</div><div class="ind-cards"><div class="ind-card red"><div class="ind-name">The Affordability Gap Widened</div><div class="ind-tag">Stratification index</div><div class="ind-body">The gap between cheapest and priciest tickets has widened to <strong>46x</strong>, revealing football's layered audience economy.</div></div><div class="ind-card amber"><div class="ind-name">Hosting Costs Do Not Explain It</div><div class="ind-tag">Decoupled economics</div><div class="ind-body">Qatar spent vastly more to host, but 2026 has the most expensive ticket prices. Pricing reflects market power, not simple cost recovery.</div></div><div class="ind-card green"><div class="ind-name">The Cheapest Tier Matters</div><div class="ind-tag">Access floor</div><div class="ind-body">The entry-level ticket determines whether ordinary local fans can attend at all, not just whether elites can pay premium prices.</div></div></div>
-  <div class="source-strip"><span>Sources:</span><a href="https://datahub.io/football/worldcup-ticket-prices" target="_blank" rel="noreferrer">DataHub</a><a href="https://theworldcupguide.com/how-much-are-world-cup-tickets-since-1994/" target="_blank" rel="noreferrer">World Cup Guide</a><a href="https://www.espn.com/soccer/story/_/id/48947095/" target="_blank" rel="noreferrer">ESPN</a></div>
+  <div class="source-strip"><span>Sources:</span><a href="https://datahub.io/football/worldcup-ticket-prices" target="_blank" rel="noopener noreferrer">DataHub</a><a href="https://theworldcupguide.com/how-much-are-world-cup-tickets-since-1994/" target="_blank" rel="noopener noreferrer">World Cup Guide</a><a href="https://www.espn.com/soccer/story/_/id/48947095/" target="_blank" rel="noopener noreferrer">ESPN</a></div>
 </div></div>
 <div id="panel-brief" class="panel"><div class="analysis-container">
   <div class="section-label">Analysis Brief</div><div class="brief-title">FIFA World Cup Ticket Pricing 2010-2026:<br>From Affordable Spectacle to Luxury Asset</div><div class="brief-sub">A five-tournament analysis of pricing trends, purchasing power, and the structural break of the 2026 dynamic pricing model</div>
@@ -83,8 +85,9 @@
   <div class="exec-box"><div class="exec-label">Executive Summary</div><div class="exec-body"><p>Across five FIFA World Cup tournaments from South Africa 2010 to the 2026 North America edition, the Category-1 final ticket price rose from <strong>$900 to $10,990</strong>. That is more than <strong>1,100%</strong>, far beyond cumulative global CPI inflation.</p><p>This is not an ordinary inflation story. It reflects FIFA's repricing of its flagship product as a luxury asset, especially through dynamic, demand-based pricing introduced for the 2026 tournament.</p></div></div>
   <div class="section-label">Five-Tournament Comparison</div><div style="overflow-x:auto"><table class="cmp-table"><thead><tr><th>Year</th><th>Host</th><th class="num">Final Cat-1</th><th class="num">Cheapest</th><th class="num">FIFA Revenue</th><th class="num">Host Cost</th></tr></thead><tbody><tr><td>2010</td><td>South Africa</td><td class="num">$900</td><td class="num">~$20</td><td class="num">$4.19B</td><td class="num">$7.2B</td></tr><tr><td>2014</td><td>Brazil</td><td class="num">$990</td><td class="num">$90</td><td class="num">$5.72B</td><td class="num">$19.7B</td></tr><tr><td>2018</td><td>Russia</td><td class="num">$1,100</td><td class="num">$105</td><td class="num">$6.42B</td><td class="num">$16.0B</td></tr><tr><td>2022</td><td>Qatar</td><td class="num">$1,607</td><td class="num">$40</td><td class="num">$7.57B</td><td class="num">$220B</td></tr><tr><td style="color:var(--accent);font-weight:600">2026</td><td style="color:var(--accent);font-weight:600">USA / Canada / Mexico</td><td class="num" style="color:var(--accent);font-weight:600">$10,990</td><td class="num" style="color:var(--accent);font-weight:600">$60</td><td class="num" style="color:var(--accent);font-weight:600">~$13B</td><td class="num" style="color:var(--accent);font-weight:600">~$250M / city</td></tr></tbody></table></div>
   <div class="section-label">Interpretation</div><div class="exec-box"><div class="exec-body"><p>The conventional narrative that World Cup tickets simply became more expensive because everything became more expensive does not fit the data. Final ticket prices grew by over 1,100% while broad inflation was roughly 55-60%.</p><p>The 2026 tournament is therefore a genuine inflection point. It shows what happens when a global cultural event is priced like a premium, demand-sensitive entertainment asset rather than a fixed-price public sporting spectacle.</p></div></div>
-  <div class="source-strip"><span>Primary sources:</span><a href="https://datahub.io/football/worldcup-ticket-prices" target="_blank" rel="noreferrer">DataHub</a><a href="https://theworldcupguide.com/how-much-are-world-cup-tickets-since-1994/" target="_blank" rel="noreferrer">World Cup Guide</a><a href="https://www.espn.com/soccer/story/_/id/48947095/" target="_blank" rel="noreferrer">ESPN</a><a href="https://www.britannica.com/money/economics-of-the-FIFA-World-Cup" target="_blank" rel="noreferrer">Britannica Money</a></div>
+  <div class="source-strip"><span>Primary sources:</span><a href="https://datahub.io/football/worldcup-ticket-prices" target="_blank" rel="noopener noreferrer">DataHub</a><a href="https://theworldcupguide.com/how-much-are-world-cup-tickets-since-1994/" target="_blank" rel="noopener noreferrer">World Cup Guide</a><a href="https://www.espn.com/soccer/story/_/id/48947095/" target="_blank" rel="noopener noreferrer">ESPN</a><a href="https://www.britannica.com/money/economics-of-the-FIFA-World-Cup" target="_blank" rel="noopener noreferrer">Britannica Money</a></div>
 </div></div>
+</main>
 <footer class="container site-footer"><p>Sports Economics Analysis by Edwin Jesu Dass · <a href="index.html" style="color:var(--muted);text-decoration:none;">edwinjd.com</a></p></footer>
 <script>
 function switchTab(name,btn){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.getElementById('panel-'+name).classList.add('active');btn.classList.add('active')}
