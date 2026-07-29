@@ -52,3 +52,10 @@ edwinjd.com/
 - GitHub Pages with custom domain `edwinjd.com`
 - CNAME file contains `edwinjd.com`
 - Push to `main` branch to deploy
+
+## Cursor Cloud specific instructions
+
+- This is a static site with **no build step, no package manager, and no dependencies to install**. There is no lint/test/build tooling in the repo.
+- To run locally, serve the repo root over HTTP (do not open files via `file://`, since `script.js` uses `fetch`): `python3 -m http.server 8000`, then browse `http://localhost:8000/`.
+- `script.js` fetches the Medium RSS feed through public proxies (`api.rss2json.com`, `api.allorigins.win`). If those are blocked/offline, the "Latest Medium Articles" section shows a graceful fallback message — this is expected and not a site bug.
+- Pages are independent HTML files (`index.html`, `analyses.html`, `publications.html`, `swarm-governance.html`, plus per-analysis pages). Verify changes by loading the affected page directly.
